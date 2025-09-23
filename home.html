@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Portfolio - 冬のポートフォリオ</title>
+    <style>
+        /* ===== WINTER THEME CSS ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+        :root {
+            /* Winter Color Palette */
+            --winter-primary: #E8F4FD;
+            --winter-secondary: #B8E0FF;
+            --winter-accent: #7DD3FC;
+            --winter-deep: #0369A1;
+            --winter-soft: #F0F9FF;
+            
+            /* Neutral Colors */
+            --white: #FFFFFF;
+            --snow-white: #FEFEFE;
+            --ice-blue: #F1F8FF;
+            --text-primary: #1E293B;
+            --text-secondary: #64748B;
+            --text-muted: #94A3B8;
+            
+            /* Gradients */
+            --gradient-winter: linear-gradient(135deg, #E8F4FD 0%, #B8E0FF 50%, #7DD3FC 100%);
+            --gradient-frost: linear-gradient(135deg, rgba(248,250,252,0.8), rgba(241,245,249,0.9));
+            --gradient-ice: linear-gradient(45deg, #F0F9FF, #E0F2FE, #BAE6FD);
+            
+            /* Shadows */
+            --shadow-soft: 0 4px 16px rgba(59, 130, 246, 0.08);
+            --shadow-medium: 0 8px 32px rgba(59, 130, 246, 0.12);
+            --shadow-strong: 0 16px 48px rgba(59, 130, 246, 0.16);
+        }
+
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background: var(--gradient-winter);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Snow Animation Background */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.8);
+            user-select: none;
+            pointer-events: none;
+            animation: snowfall linear infinite;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header Navigation */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(186, 230, 253, 0.2);
+        }
+
+        .main-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .nav-logo h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--winter-deep);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--winter-soft);
+            color: var(--winter-deep);
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Section Styles */
+        .section {
+            display: none;
+            min-height: 80vh;
+            padding: 3rem 0;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Home Section */
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 4rem;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .hero-content {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-japanese {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--winter-deep);
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary:hover {
+            background: #0284C7;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--winter-deep);
+            border: 2px solid var(--winter-secondary);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-secondary:hover {
+            background: var(--winter-soft);
+            transform: translateY(-2px);
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .profile-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: var(--shadow-medium);
+            border: 1px solid rgba(186, 230, 253, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-ice);
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 4px solid var(--winter-secondary);
+        }
+
+        .profile-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Profile Section */
+        .profile-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .info-card, .skills-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(186, 230, 253, 0.2);
+        }
+
+        .info-card h3, .skills-card h3 {
+            color: var(--winter-deep);
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--ice-blue);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .skill-item span {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .skill-bar {
+            background: var(--ice-blue);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--gradient-ice);
+            border-radius: 4px;
+            transition: width 1.2s ease-out;
+        }
+
+        /* Social Section */
+        .social-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .social-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(186, 230, 253, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-ice);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .social-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .social-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .social-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+            position: relative;
+        }
+
+        .social-icon.twitter { background: linear-gradient(135deg, #1DA1F2, #0D8BD9); }
+        .social-icon.instagram { background: linear-gradient(135deg, #E4405F, #C13584, #833AB4); }
+        .social-icon.github { background: linear-gradient(135deg, #333, #24292E); }
+        .social-icon.linkedin { background: linear-gradient(135deg, #0077B5, #005885); }
+
+        .social-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .social-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .social-link {
+            color: var(--winter-deep);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--winter-secondary);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .social-link:hover {
+            background: var(--winter-deep);
+            color: var(--white);
+            border-color: var(--winter-deep);
+        }
+
+        /* Projects Section */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(186, 230, 253, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .project-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-content h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .project-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: var(--winter-soft);
+            color: var(--winter-deep);
+            padding: 0.375rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid var(--winter-secondary);
+        }
+
+        /* Floating Action Button */
+        .fab-container {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 1000;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--winter-deep);
+            border: none;
+            color: var(--white);
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-medium);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-strong);
+            background: #0284C7;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-container {
+            background: var(--white);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: var(--shadow-strong);
+            border: 1px solid rgba(186, 230, 253, 0.2);
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-32px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--ice-blue);
+            background: var(--gradient-frost);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--winter-soft);
+            color: var(--text-primary);
+        }
+
+        .modal-content {
+            display: flex;
+            height: 500px;
+        }
+
+        .modal-left {
+            width: 40%;
+            background: var(--ice-blue);
+            padding: 1.5rem;
+            border-right: 1px solid rgba(186, 230, 253, 0.3);
+        }
+
+        .modal-right {
+            width: 60%;
+            padding: 1.5rem;
+            background: var(--white);
+        }
+
+        /* Settings Profile */
+        .settings-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .settings-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            border: 3px solid var(--winter-secondary);
+        }
+
+        .settings-user-info h4 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .settings-user-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Settings List */
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .setting-item:hover {
+            background: var(--winter-soft);
+            border-color: var(--winter-secondary);
+        }
+
+        .setting-item.active {
+            background: var(--winter-deep);
+            color: var(--white);
+            border-color: var(--winter-deep);
+        }
+
+        .setting-icon {
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        /* Settings Preview */
+        .settings-preview {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .preview-content {
+            display: none;
+        }
+
+        .preview-content.active {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .preview-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .preview-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Theme Options */
+        .theme-options {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .theme-btn {
+            padding: 0.75rem 1.25rem;
+            border: 2px solid var(--winter-secondary);
+            border-radius: 12px;
+            background: var(--white);
+            color: var(--winter-deep);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .theme-btn:hover,
+        .theme-btn.active {
+            background: var(--winter-deep);
+            color: var(--white);
+            border-color: var(--winter-deep);
+        }
+
+        /* Animation Controls */
+        .animation-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .toggle-label input {
+            display: none;
+        }
+
+        .toggle-slider {
+            width: 48px;
+            height: 24px;
+            background: var(--winter-secondary);
+            border-radius: 12px;
+            margin-right: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-slider::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--white);
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .toggle-label input:checked + .toggle-slider {
+            background: var(--winter-deep);
+        }
+
+        .toggle-label input:checked + .toggle-slider::after {
+            transform: translateX(24px);
+        }
+
+        /* Language Select */
+        .language-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--winter-secondary);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: var(--white);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-select:focus {
+            outline: none;
+            border-color: var(--winter-deep);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                flex-direction: column;
+                height: auto;
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+            
+            .modal-left,
+            .modal-right {
+                width: 100%;
+            }
+        }
+
+        /* Animation Keyframes */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-32px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(32px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .hidden { display: none; }
+        .loading { opacity: 0; animation: fadeIn 0.5s ease forwards; }
+    </style>
+</head>
+<body>
+    <!-- Snow Animation Background -->
+    <div class="snow-container" id="snowContainer"></div>
+
+    <!-- Navigation Header -->
+    <header class="nav-header">
+        <nav class="main-nav">
+            <div class="nav-logo">
+                <h2>❄️ Winter Portfolio</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#profile" class="nav-link">Profile</a></li>
+                <li><a href="#social" class="nav-link">Social</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Welcome to My Winter Portfolio</h1>
+                    <p class="hero-subtitle">Creating beautiful digital experiences with clean, minimalist design</p>
+                    <p class="hero-japanese">冬の美しい世界へようこそ</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary">🚀 Explore Work</button>
+                        <button class="btn btn-secondary">📧 Contact Me</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="profile-card">
+                        <img src="https://via.placeholder.com/120x120/E8F4FD/0369A1?text=👤" alt="Profile" class="profile-img">
+                        <h3>Your Name</h3>
+                        <p>Frontend Developer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="section">
+            <div class="section-header">
+                <h2 class="section-title">About Me</h2>
+                <p class="section-subtitle">プロフィール</p>
+            </div>
+            <div class="profile-info">
+                <div class="info-card">
+                    <h3>Personal Information</h3>
+                    <div class="info-item">
+                        <span class="info-label">Name</span>
+                        <span class="info-value">Your Full Name</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Age</span>
+                        <span class="info-value">25 Years Old</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Location</span>
+                        <span class="info-value">Tokyo, Japan</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Occupation</span>
+                        <span class="info-value">Frontend Developer</span>
+                    </div>
+                </div>
+                <div class="skills-card">
+                    <h3>Skills & Expertise</h3>
+                    <div class="skill-item">
+                        <span>JavaScript</span>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span>React</span>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span>TypeScript</span>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 80%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span>UI/UX Design</span>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 75%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Section -->
+        <section id="social" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Social Media</h2>
+                <p class="section-subtitle">ソーシャルメディア</p>
+            </div>
+            <div class="social-container">
+                <div class="social-card">
+                    <div class="social-icon twitter">🐦</div>
+                    <h3>Twitter</h3>
+                    <p>Follow my daily updates and thoughts</p>
+                    <a href="#" class="social-link">@username</a>
+                </div>
+                <div class="social-card">
+                    <div class="social-icon instagram">📷</div>
+                    <h3>Instagram</h3>
+                    <p>Visual stories and behind the scenes</p>
+                    <a href="#" class="social-link">@username</a>
+                </div>
+                <div class="social-card">
+                    <div class="social-icon github">💻</div>
+                    <h3>GitHub</h3>
+                    <p>Check out my latest code projects</p>
+                    <a href="#" class="social-link">@username</a>
+                </div>
+                <div class="social-card">
+                    <div class="social-icon linkedin">💼</div>
+                    <h3>LinkedIn</h3>
+                    <p>Professional network and updates</p>
+                    <a href="#" class="social-link">@username</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="section-header">
+                <h2 class="section-title">My Projects</h2>
+                <p class="section-subtitle">プロジェクト</p>
+            </div>
+            <div class="projects-container">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/320x200/E8F4FD/0369A1?text=Winter+App" alt="Project 1">
+                    </div>
+                    <div class="project-content">
+                        <h3>Winter Web App</h3>
+                        <p>A beautiful winter-themed web application with modern design and smooth animations.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Tailwind</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/320x200/B8E0FF/0369A1?text=Portfolio+Site" alt="Project 2">
+                    </div>
+                    <div class="project-content">
+                        <h3>Portfolio Website</h3>
+                        <p>An elegant portfolio showcase with clean design and responsive layout.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">Framer</span>
+                            <span class="tech-tag">CSS3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/320x200/7DD3FC/0369A1?text=Dashboard" alt="Project 3">
+                    </div>
+                    <div class="project-content">
+                        <h3>Analytics Dashboard</h3>
+                        <p>Interactive analytics dashboard with real-time data visualization and modern UI.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">Chart.js</span>
+                            <span class="tech-tag">SCSS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <button class="fab" id="fabButton">
+            ⚙️
+        </button>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Settings & Preferences</h3>
+                <button class="modal-close" id="modalClose">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-left">
+                    <div class="settings-profile">
+                        <img src="https://via.placeholder.com/48x48/E8F4FD/0369A1?text=👤" alt="User" class="settings-avatar">
+                        <div class="settings-user-info">
+                            <h4>User Name</h4>
+                            <p>user@example.com</p>
+                        </div>
+                    </div>
+                    <div class="settings-list">
+                        <div class="setting-item active" data-setting="theme">
+                            <span class="setting-icon">🎨</span>
+                            <span>Theme Settings</span>
+                        </div>
+                        <div class="setting-item" data-setting="animation">
+                            <span class="setting-icon">✨</span>
+                            <span>Animation Control</span>
+                        </div>
+                        <div class="setting-item" data-setting="language">
+                            <span class="setting-icon">🌐</span>
+                            <span>Language</span>
+                        </div>
+                        <div class="setting-item" data-setting="notification">
+                            <span class="setting-icon">🔔</span>
+                            <span>Notifications</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-right">
+                    <div class="settings-preview">
+                        <div class="preview-content active" data-preview="theme">
+                            <h4>Theme Customization</h4>
+                            <p>Choose your preferred theme and color scheme for the best experience.</p>
+                            <div class="theme-options">
+                                <button class="theme-btn active" data-theme="winter">❄️ Winter</button>
+                                <button class="theme-btn" data-theme="spring">🌸 Spring</button>
+                                <button class="theme-btn" data-theme="summer">☀️ Summer</button>
+                            </div>
+                        </div>
+                        <div class="preview-content" data-preview="animation">
+                            <h4>Animation Settings</h4>
+                            <p>Control background animations and visual effects.</p>
+                            <div class="animation-controls">
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                    Snow Animation
+                                </label>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                    Hover Effects
+                                </label>
+                            </div>
+                        </div>
+                        <div class="preview-content" data-preview="language">
+                            <h4>Language Selection</h4>
+                            <p>Choose your preferred language for the interface.</p>
+                            <select class="language-select">
+                                <option value="en">English</option>
+                                <option value="id">Bahasa Indonesia</option>
+                                <option value="ja">日本語</option>
+                            </select>
+                        </div>
+                        <div class="preview-content" data-preview="notification">
+                            <h4>Notification Preferences</h4>
+                            <p>Manage your notification settings and alerts.</p>
+                            <div class="animation-controls">
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                    Email Notifications
+                                </label>
+                                <label class="toggle-label">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                    Push Notifications
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== WINTER THEME JAVASCRIPT =====
+
+        // DOM Elements
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section');
+        const fabButton = document.getElementById('fabButton');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const settingItems = document.querySelectorAll('.setting-item');
+        const previewContents = document.querySelectorAll('.preview-content');
+        const themeButtons = document.querySelectorAll('.theme-btn');
+
+        // Navigation System
+        function initNavigation() {
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    
+                    // Update active states
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Activate target
+                    link.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        }
+
+        // Snow Animation System
+        function createSnowAnimation() {
+            const snowContainer = document.getElementById('snowContainer');
+            const snowflakeCount = 50;
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
+                
+                // Random properties
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 10 + 8) + 's';
+                snowflake.style.animationDelay = Math.random() * 8 + 's';
+                snowflake.style.fontSize = (Math.random() * 0.8 + 0.8) + 'rem';
+                snowflake.style.opacity = Math.random() * 0.6 + 0.4;
+                
+                snowContainer.appendChild(snowflake);
+            }
+        }
+
+        // Modal System
+        function initModal() {
+            // Open modal
+            fabButton.addEventListener('click', () => {
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Close modal
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+            
+            // ESC key close
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Settings System
+        function initSettings() {
+            settingItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const settingType = item.getAttribute('data-setting');
+                    
+                    // Update active states
+                    settingItems.forEach(setting => setting.classList.remove('active'));
+                    previewContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Activate selected
+                    item.classList.add('active');
+                    document.querySelector(`[data-preview="${settingType}"]`).classList.add('active');
+                });
+            });
+        }
+
+        // Theme System
+        function initThemeSystem() {
+            themeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const theme = button.getAttribute('data-theme');
+                    
+                    // Update active state
+                    themeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Apply theme
+                    applyTheme(theme);
+                    showNotification(`Theme changed to ${theme}!`, 'success');
+                });
+            });
+        }
+
+        function applyTheme(theme) {
+            const root = document.documentElement;
+            
+            switch(theme) {
+                case 'winter':
+                    root.style.setProperty('--winter-primary', '#E8F4FD');
+                    root.style.setProperty('--winter-secondary', '#B8E0FF');
+                    root.style.setProperty('--winter-accent', '#7DD3FC');
+                    break;
+                case 'spring':
+                    root.style.setProperty('--winter-primary', '#F0FDF4');
+                    root.style.setProperty('--winter-secondary', '#BBF7D0');
+                    root.style.setProperty('--winter-accent', '#86EFAC');
+                    break;
+                case 'summer':
+                    root.style.setProperty('--winter-primary', '#FFF7ED');
+                    root.style.setProperty('--winter-secondary', '#FFEDD5');
+                    root.style.setProperty('--winter-accent', '#FED7AA');
+                    break;
+            }
+        }
+
+        // Skill Bar Animation
+        function animateSkillBars() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const skillBars = entry.target.querySelectorAll('.skill-progress');
+                        skillBars.forEach(bar => {
+                            const width = bar.style.width;
+                            bar.style.width = '0%';
+                            setTimeout(() => {
+                                bar.style.width = width;
+                            }, 200);
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            const profileSection = document.getElementById('profile');
+            if (profileSection) observer.observe(profileSection);
+        }
+
+        // Animation Controls
+        function initAnimationControls() {
+            const toggles = document.querySelectorAll('.toggle-label input[type="checkbox"]');
+            
+            toggles.forEach(toggle => {
+                toggle.addEventListener('change', (e) => {
+                    const isChecked = e.target.checked;
+                    const label = e.target.closest('.toggle-label').textContent.trim();
+                    
+                    if (label.includes('Snow')) {
+                        toggleSnowAnimation(isChecked);
+                    } else if (label.includes('Hover')) {
+                        toggleHoverEffects(isChecked);
+                    }
+                });
+            });
+        }
+
+        function toggleSnowAnimation(enabled) {
+            const snowflakes = document.querySelectorAll('.snowflake');
+            snowflakes.forEach(flake => {
+                flake.style.animationPlayState = enabled ? 'running' : 'paused';
+            });
+        }
+
+        function toggleHoverEffects(enabled) {
+            const cards = document.querySelectorAll('.social-card, .project-card');
+            cards.forEach(card => {
+                if (enabled) {
+                    card.style.transition = 'all 0.3s ease';
+                } else {
+                    card.style.transition = 'none';
+                }
+            });
+        }
+
+        // Notification System
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            
+            Object.assign(notification.style, {
+                position: 'fixed',
+                top: '24px',
+                right: '24px',
+                padding: '1rem 1.5rem',
+                background: type === 'success' ? 'var(--winter-deep)' : 'var(--winter-accent)',
+                color: 'var(--white)',
+                borderRadius: '12px',
+                boxShadow: 'var(--shadow-medium)',
+                zIndex: '3000',
+                transform: 'translateX(100%)',
+                transition: 'transform 0.3s ease',
+                fontSize: '0.875rem',
+                fontWeight: '500'
+            });
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+
+        // Scroll to Top
+        function initScrollToTop() {
+            const logo = document.querySelector('.nav-logo');
+            logo.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                initNavigation();
+                initModal();
+                initSettings();
+                initThemeSystem();
+                initAnimationControls();
+                initScrollToTop();
+                
+                createSnowAnimation();
+                animateSkillBars();
+                
+                // Welcome message
+                setTimeout(() => {
+                    showNotification('❄️ Welcome to Winter Portfolio!', 'success');
+                }, 1000);
+                
+                console.log('❄️ Winter Portfolio initialized successfully!');
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
