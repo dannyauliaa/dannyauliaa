@@ -1,4 +1,4 @@
-    <script>
+<script>
         // Loading screen
         window.addEventListener('load', function() {
             setTimeout(() => {
@@ -226,4 +226,5 @@
         }
 
         window.addEventListener('scroll', requestScrollUpdate);
-  </script>
+
+</script>
