@@ -3,11 +3,11 @@
 Hi there! 👋
 
 
-Student of Telecommunication Engineering. Interest in Finance, Procurement, Entertainment, and Cybersecurity.
+Bachelor of Telecommunication Engineering. Interest in advancements of technologies.
 
 ## About Me
 
-Bachelor of Telkom University <img src="My Assets\Logo TelU.png" height="20em" align="center" alt="Logo TelU" title="Logo TelU"/>
+Bachelor of Telkom University <img src="Assets\Image\LogoTelU.png"/>
 
 
 Head Assistant of Signal Processing for Intelligent Systems <img src="My Assets\Logo SPIS.png" height="20em" align="center" alt="Logo SPIS" title="Logo SPIS"/>
