@@ -7,7 +7,7 @@ Bachelor of Telecommunication Engineering. Interest in advancements of technolog
 
 ## About Me
 
-Bachelor of Telkom University <img src="Assets\Image\LogoTelU.png"/>
+Bachelor of Telkom University <img src="Assets\Image\LogoTelU.png" height="20em" align="center"/>
 
 
 Head Assistant of Signal Processing for Intelligent Systems <img src="My Assets\Logo SPIS.png" height="20em" align="center" alt="Logo SPIS" title="Logo SPIS"/>
