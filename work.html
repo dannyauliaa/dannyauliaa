@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Danny Aulia - Work</title>
+  <link rel="stylesheet" href="Assets/CascadingStyleSheets/Theme.css" />
+</head>
+<body>
+    <!-- Canvas for Seasonal Background -->
+  <canvas id="seasonCanvas" aria-hidden="true"></canvas>
+  <!-- Demo: Header + Selector -->
+  <header class="topbar">
+    <div class="brand">Themes</div>
+    <div class="controls">
+      <label for="seasonSelect" class="sr-only">Choose Season</label>
+      <select id="seasonSelect" aria-label="Choose season">
+        <option value="auto">Auto</option>
+        <option value="spring">Spring</option>
+        <option value="summer">Summer</option>
+        <option value="autumn">Autumn</option>
+        <option value="winter">Winter</option>
+      </select>
+    </div>
+  </header>
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <button class="fab" id="fabButton">
+            ⚙️
+        </button>
+    </div>
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Settings & Preferences</h3>
+                <button class="modal-close" id="modalClose">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-left">
+                    <div class="settings-profile">
+                        <img src="https://via.placeholder.com/48x48/E8F4FD/0369A1?text=👤" alt="User" class="settings-avatar">
+                        <div class="settings-user-info">
+                            <h4>User Name</h4>
+                            <p>user@example.com</p>
+                        </div>
+                    </div>
+                    <div class="settings-list">
+                        <div class="setting-item active" data-setting="theme">
+                            <span class="setting-icon">🎨</span>
+                            <span>Theme</span>
+                        </div>
+                        <div class="setting-item" data-setting="animation">
+                            <span class="setting-icon">✨</span>
+                            <span>Animation</span>
+                        </div>
+                        <div class="setting-item" data-setting="language">
+                            <span class="setting-icon">🌐</span>
+                            <span>Language</span>
+                        </div>
+                        <div class="setting-item" data-setting="notification">
+                            <span class="setting-icon">🔔</span>
+                            <span>Notifications</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-right">
+                    <div class="settings-preview">
+                        <div class="preview-content active" data-preview="theme">
+                            <h4>Theme Customization</h4>
+                            <p>Choose your preferred theme and color scheme for the unique experience.</p>
+                            <div class="theme-options">
+                                <button class="theme-btn" data-theme="spring">🌸 Spring</button>
+                                <button class="theme-btn" data-theme="summer">☀️ Summer</button>
+                                <button class="theme-btn" data-theme="autumn">🍁 Autumn</button>
+                                <button class="theme-btn active" data-theme="winter">❄️ Winter</button>
+                            </div>
+                        </div>
+                        <div class="preview-content" data-preview="animation">
+                            <h4>Animation Settings</h4>
+                            <p>Control background visual and animations effects.</p>
+                            <div class="animation-controls">
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                    Snow Animation
+                                </label>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                    Hover Effects
+                                </label>
+                            </div>
+                        </div>
+                        <div class="preview-content" data-preview="language">
+                            <h4>Language Selection</h4>
+                            <p>Choose your preferred language for the interface.</p>
+                            <select class="language-select">
+                                <option value="id">Bahasa Indonesia</option>
+                                <option value="en">English</option>
+                                <option value="ja">日本語</option>
+                            </select>
+                        </div>
+                        <div class="preview-content" data-preview="notification">
+                            <h4>Notification Preferences</h4>
+                            <p>Manage your notification settings and alerts.</p>
+                            <div class="animation-controls">
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                    Email Notifications
+                                </label>
+                                <label class="toggle-label">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                    Push Notifications
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+
+
+
+  
+  
