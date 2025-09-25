@@ -3,28 +3,33 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Danny Aulia - Work</title>
+  <title>My Portfolio - Work</title>
   <link rel="stylesheet" href="Assets/CascadingStyleSheets/Theme.css" />
 </head>
 <body>
-    <!-- Canvas for Seasonal Background -->
+  <!-- Canvas for Seasonal Background -->
   <canvas id="seasonCanvas" aria-hidden="true"></canvas>
-  <!-- Demo: Header + Selector -->
-  <header class="topbar">
-    <div class="brand">Themes</div>
-    <div class="controls">
-      <label for="seasonSelect" class="sr-only">Choose Season</label>
-      <select id="seasonSelect" aria-label="Choose season">
-        <option value="auto">Auto</option>
-        <option value="spring">Spring</option>
-        <option value="summer">Summer</option>
-        <option value="autumn">Autumn</option>
-        <option value="winter">Winter</option>
-      </select>
-    </div>
-  </header>
+ 
+  <!-- Navigation Header -->
+    <header class="nav-header">
+        <nav class="main-nav">
+            <div class="nav-logo">
+                <h2>My Portfolio</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="work.html">Work</a></li>
+                <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="social.html">Social</a></li>
+            </ul>
+        </nav>
+    </header>
+  
   <!-- Main Content -->
   <main class="main-content">
+
+    
     <!-- Floating Action Button -->
     <div class="fab-container">
         <button class="fab" id="fabButton">
@@ -41,10 +46,10 @@
             <div class="modal-content">
                 <div class="modal-left">
                     <div class="settings-profile">
-                        <img src="https://via.placeholder.com/48x48/E8F4FD/0369A1?text=👤" alt="User" class="settings-avatar">
+                        <img src="Assets/Image/Michele1.png" alt="User" class="settings-avatar">
                         <div class="settings-user-info">
-                            <h4>User Name</h4>
-                            <p>user@example.com</p>
+                            <h4>Danny Aulia</h4>
+                            <p>envodannyaulia245@gmail.com</p>
                         </div>
                     </div>
                     <div class="settings-list">
@@ -75,17 +80,18 @@
                                 <button class="theme-btn" data-theme="spring">🌸 Spring</button>
                                 <button class="theme-btn" data-theme="summer">☀️ Summer</button>
                                 <button class="theme-btn" data-theme="autumn">🍁 Autumn</button>
-                                <button class="theme-btn active" data-theme="winter">❄️ Winter</button>
+                                <button class="theme-btn" data-theme="winter">❄️ Winter</button>
+                                <button class="theme-btn active" data-theme="auto">🎲 Auto</button>
                             </div>
                         </div>
                         <div class="preview-content" data-preview="animation">
                             <h4>Animation Settings</h4>
-                            <p>Control background visual and animations effects.</p>
+                            <p>Control background visual and animation effects.</p>
                             <div class="animation-controls">
                                 <label class="toggle-label">
                                     <input type="checkbox" checked>
                                     <span class="toggle-slider"></span>
-                                    Snow Animation
+                                    Animation Effects
                                 </label>
                                 <label class="toggle-label">
                                     <input type="checkbox" checked>
@@ -100,7 +106,7 @@
                             <select class="language-select">
                                 <option value="id">Bahasa Indonesia</option>
                                 <option value="en">English</option>
-                                <option value="ja">日本語</option>
+                                <option value="jp">日本語</option>
                             </select>
                         </div>
                         <div class="preview-content" data-preview="notification">
