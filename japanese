@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Nature - Seasonal Beauty</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            transition: background 0.8s ease;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.spring {
+            background: linear-gradient(to bottom, #ffd4e5 0%, #ffe8f0 30%, #fff5f8 60%, #ffffff 100%);
+        }
+
+        body.summer {
+            background: linear-gradient(to bottom, #c8e6c9 0%, #dcedc8 30%, #f1f8e9 60%, #ffffff 100%);
+        }
+
+        body.autumn {
+            background: linear-gradient(to bottom, #ffcc80 0%, #ffe0b2 30%, #fff3e0 60%, #ffffff 100%);
+        }
+
+        body.winter {
+            background: linear-gradient(to bottom, #bbdefb 0%, #e1f5fe 30%, #f1f8ff 60%, #ffffff 100%);
+        }
+
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 20px;
+            animation: fall linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            padding: 1rem 3rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid rgba(139, 69, 19, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            color: #5d4037;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .header-season-selector {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .season-icon-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(139, 69, 19, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .season-icon-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background: white;
+        }
+
+        .season-icon-btn.active {
+            border-color: #8b4513;
+            background: white;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+        }
+
+        .header-clock {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            font-family: 'Courier New', monospace;
+            color: #5d4037;
+        }
+
+        .header-date {
+            font-size: 0.9rem;
+            color: #8b6f47;
+            margin-bottom: 0.2rem;
+        }
+
+        .header-time {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        main {
+            flex: 1;
+            position: relative;
+            z-index: 2;
+            padding: 4rem 3rem;
+        }
+
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        .welcome-section {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 4rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 2px solid rgba(139, 69, 19, 0.1);
+        }
+
+        .welcome-section h2 {
+            font-size: 3rem;
+            color: #5d4037;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        .welcome-section .subtitle {
+            font-size: 1.3rem;
+            color: #8b6f47;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .welcome-section p {
+            font-size: 1.1rem;
+            color: #6d4c41;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .nature-divider {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #8b4513, transparent);
+            margin: 2rem auto;
+        }
+
+        .season-info-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 2px solid rgba(139, 69, 19, 0.1);
+            height: fit-content;
+        }
+
+        .season-icon-large {
+            font-size: 5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        #season-title {
+            font-size: 2rem;
+            color: #5d4037;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        #season-description {
+            font-size: 1.1rem;
+            color: #8b6f47;
+            text-align: center;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .season-details {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(139, 69, 19, 0.1);
+        }
+
+        .season-detail-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .season-detail-item h4 {
+            color: #5d4037;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .season-detail-item p {
+            color: #8b6f47;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .features-grid {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border: 2px solid rgba(139, 69, 19, 0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: #5d4037;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .feature-card p {
+            color: #8b6f47;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        footer {
+            background: rgba(93, 64, 55, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            color: #fff;
+            margin-top: auto;
+            z-index: 100;
+            position: relative;
+            border-top: 3px solid rgba(139, 69, 19, 0.3);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #ffe0b2;
+            font-weight: 400;
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.8;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #ffe0b2;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b4513 0%, #5d4037 100%);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(139, 69, 19, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 6px 30px rgba(139, 69, 19, 0.6);
+        }
+
+        .mini-page {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 320px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+            border: 2px solid rgba(139, 69, 19, 0.2);
+        }
+
+        .mini-page.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mini-page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 2px solid rgba(139, 69, 19, 0.1);
+            background: rgba(139, 69, 19, 0.05);
+        }
+
+        .mini-page-header h3 {
+            color: #5d4037;
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #8b6f47;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: #5d4037;
+        }
+
+        .mini-page-content {
+            padding: 1rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: #5d4037;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            margin-bottom: 0.5rem;
+            border: 1px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(139, 69, 19, 0.08);
+            transform: translateX(5px);
+            border-color: rgba(139, 69, 19, 0.2);
+        }
+
+        .menu-item .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 1.5rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .header-season-selector {
+                order: 3;
+            }
+            
+            .header-clock {
+                order: 2;
+                align-items: center;
+            }
+            
+            main {
+                padding: 2rem 1.5rem;
+            }
+            
+            .welcome-section {
+                padding: 2.5rem;
+            }
+            
+            .welcome-section h2 {
+                font-size: 2rem;
+            }
+            
+            .season-info-card {
+                padding: 2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .mini-page {
+                right: 20px;
+                width: calc(100% - 40px);
+                max-width: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>🏯 Japanese Nature</h1>
+            </div>
+            
+            <div class="header-season-selector">
+                <button onclick="changeSeason('spring')" class="season-icon-btn active" data-season="spring" title="Spring">🌸</button>
+                <button onclick="changeSeason('summer')" class="season-icon-btn" data-season="summer" title="Summer">☘️</button>
+                <button onclick="changeSeason('autumn')" class="season-icon-btn" data-season="autumn" title="Autumn">🍁</button>
+                <button onclick="changeSeason('winter')" class="season-icon-btn" data-season="winter" title="Winter">❄️</button>
+            </div>
+            
+            <div class="header-clock">
+                <div id="header-date" class="header-date"></div>
+                <div id="header-time" class="header-time"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-wrapper">
+            <div class="welcome-section">
+                <h2>Selamat Datang di Japanese Nature</h2>
+                <p class="subtitle">四季の美しさ - Keindahan Empat Musim</p>
+                
+                <div class="nature-divider"></div>
+                
+                <p>
+                    Jepang dikenal dengan keindahan alamnya yang berganti mengikuti empat musim. Setiap musim membawa keunikan dan pesona tersendiri, dari sakura yang mekar di musim semi hingga salju yang turun lembut di musim dingin.
+                </p>
+                
+                <p>
+                    Website ini menghadirkan pengalaman visual yang memukau, dimana Anda dapat merasakan atmosfer setiap musim di Jepang. Nikmati ketenangan dan keharmonisan alam Jepang yang legendaris melalui tampilan interaktif kami.
+                </p>
+                
+                <p>
+                    Pilih musim favorit Anda di bagian atas dan rasakan bagaimana alam berubah dengan indahnya. Setiap musim memiliki karakteristik unik yang mencerminkan filosofi Jepang tentang keseimbangan dan keindahan alami.
+                </p>
+            </div>
+
+            <div class="season-info-card">
+                <span id="season-icon" class="season-icon-large">🌸</span>
+                <h2 id="season-title">Spring Season</h2>
+                <p id="season-description">Cherry blossoms bloom across the landscape</p>
+                
+                <div class="season-details">
+                    <div class="season-detail-item">
+                        <h4>🗓️ Periode</h4>
+                        <p id="season-period-text">Maret - Mei</p>
+                    </div>
+                    <div class="season-detail-item">
+                        <h4>🌡️ Karakteristik</h4>
+                        <p id="season-characteristics">Udara hangat, bunga bermekaran</p>
+                    </div>
+                    <div class="season-detail-item">
+                        <h4>🎎 Tradisi</h4>
+                        <p id="season-traditions">Hanami (melihat bunga sakura)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🌸</span>
+                    <h3>Pengalaman Visual</h3>
+                    <p>Nikmati efek visual yang memukau dengan partikel-partikel yang jatuh sesuai musim yang dipilih, menciptakan suasana autentik Jepang.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🎨</span>
+                    <h3>Desain Minimalis</h3>
+                    <p>Terinspirasi dari filosofi wabi-sabi Jepang, desain kami mengedepankan kesederhanaan dan keindahan alami.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">⏰</span>
+                    <h3>Real-time Update</h3>
+                    <p>Waktu dan tanggal ditampilkan secara real-time, mengingatkan kita akan perjalanan waktu dan perubahan musim.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Tentang Kami</h3>
+                <p>Japanese Nature adalah platform yang didedikasikan untuk membawa keindahan empat musim Jepang ke dalam pengalaman digital yang immersive.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Navigasi</h3>
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <a href="mailto:info@japanesenature.com">info@japanesenature.com</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Japanese Nature. All rights reserved. | 日本の自然</p>
+        </div>
+    </footer>
+
+    <button id="fab" class="fab">+</button>
+
+    <div id="mini-page" class="mini-page">
+        <div class="mini-page-header">
+            <h3>Menu Navigasi</h3>
+            <button id="close-menu" class="close-btn">&times;</button>
+        </div>
+        <div class="mini-page-content">
+            <a href="#home" class="menu-item">
+                <span class="icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="#seasons" class="menu-item">
+                <span class="icon">🌸</span>
+                <span>Seasons</span>
+            </a>
+            <a href="#gallery" class="menu-item">
+                <span class="icon">🖼️</span>
+                <span>Gallery</span>
+            </a>
+            <a href="#about" class="menu-item">
+                <span class="icon">ℹ️</span>
+                <span>About</span>
+            </a>
+            <a href="#contact" class="menu-item">
+                <span class="icon">📧</span>
+                <span>Contact</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const seasons = {
+            spring: {
+                title: 'Spring Season',
+                titleJp: '春 (Haru)',
+                description: 'Musim semi membawa kehidupan baru dengan mekarnya bunga sakura yang memukau',
+                particle: '🌸',
+                particleCount: 30,
+                icon: '🌸',
+                period: 'Maret - Mei',
+                characteristics: 'Udara hangat, bunga bermekaran, langit cerah',
+                traditions: 'Hanami (melihat bunga sakura), festival musim semi'
+            },
+            summer: {
+                title: 'Summer Season',
+                titleJp: '夏 (Natsu)',
+                description: 'Musim panas penuh dengan kehijauan segar dan semangat festival matsuri',
+                particle: '☘️',
+                particleCount: 25,
+                icon: '☘️',
+                period: 'Juni - Agustus',
+                characteristics: 'Panas, lembab, hijau subur, langit biru',
+                traditions: 'Matsuri (festival musim panas), kembang api'
+            },
+            autumn: {
+                title: 'Autumn Season',
+                titleJp: '秋 (Aki)',
+                description: 'Musim gugur mempesona dengan dedaunan maple yang berubah menjadi emas',
+                particle: '🍁',
+                particleCount: 35,
+                icon: '🍁',
+                period: 'September - November',
+                characteristics: 'Sejuk, dedaunan berubah warna, udara segar',
+                traditions: 'Momijigari (melihat daun maple), panen'
+            },
+            winter: {
+                title: 'Winter Season',
+                titleJp: '冬 (Fuyu)',
+                description: 'Musim dingin membawa ketenangan dengan salju yang turun lembut',
+                particle: '❄️',
+                particleCount: 40,
+                icon: '❄️',
+                period: 'Desember - Februari',
+                characteristics: 'Dingin, bersalju, pemandangan putih bersih',
+                traditions: 'Onsen (pemandian air panas), perayaan tahun baru'
+            }
+        };
+
+        let currentSeason = 'spring';
+        let particleInterval;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeClock();
+            changeSeason('spring');
+            initializeFAB();
+        });
+
+        function initializeClock() {
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            const day = days[now.getDay()];
+            const date = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('header-date').textContent = `${day}, ${date} ${month} ${year}`;
+            document.getElementById('header-time').textContent = `${hours}:${minutes}`;
+        }
+
+        function changeSeason(season) {
+            if (!seasons[season]) return;
+            currentSeason = season;
+            const config = seasons[season];
+            
+            document.body.className = season;
+            
+            document.querySelectorAll('.season-icon-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.season === season) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            document.getElementById('season-icon').textContent = config.icon;
+            document.getElementById('season-title').textContent = `${config.title} - ${config.titleJp}`;
+            document.getElementById('season-description').textContent = config.description;
+            document.getElementById('season-period-text').textContent = config.period;
+            document.getElementById('season-characteristics').textContent = config.characteristics;
+            document.getElementById('season-traditions').textContent = config.traditions;
+            
+            createParticles(season);
+        }
+
+        function createParticles(season) {
+            const container = document.getElementById('particles');
+            container.innerHTML = '';
+            
+            if (particleInterval) {
+                clearInterval(particleInterval);
+            }
+            
+            const config = seasons[season];
+            
+            for (let i = 0; i < config.particleCount; i++) {
+                addParticle(container, config.particle);
+            }
+            
+            particleInterval = setInterval(() => {
+                if (container.children.length < config.particleCount * 2) {
+                    addParticle(container, config.particle);
+                }
+            }, 800);
+        }
+
+        function addParticle(container, particle) {
+            const el = document.createElement('div');
+            el.className = 'particle';
+            el.textContent = particle;
+            el.style.left = Math.random() * 100 + '%';
+            el.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            
+            const duration = Math.random() * 10 + 10;
+            const delay = Math.random() * 5;
+            el.style.animationDuration = duration + 's';
+            el.style.animationDelay = delay + 's';
+            
+            container.appendChild(el);
+            
+            setTimeout(() => {
+                if (el.parentNode) el.remove();
+            }, (duration + delay) * 1000);
+        }
+
+        function initializeFAB() {
+            const fab = document.getElementById('fab');
+            const miniPage = document.getElementById('mini-page');
+            const closeBtn = document.getElementById('close-menu');
+            
+            fab.addEventListener('click', () => {
+                miniPage.classList.toggle('active');
+                fab.style.transform = miniPage.classList.contains('active') ? 'rotate(45deg)' : 'rotate(0deg)';
+            });
+            
+            closeBtn.addEventListener('click', () => {
+                miniPage.classList.remove('active');
+                fab.style.transform = 'rotate(0deg)';
+            });
+            
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    miniPage.classList.remove('active');
+                    fab.style.transform = 'rotate(0deg)';
+                });
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!miniPage.contains(e.target) && !fab.contains(e.target)) {
+                    miniPage.classList.remove('active');
+                    fab.style.transform = 'rotate(0deg)';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
