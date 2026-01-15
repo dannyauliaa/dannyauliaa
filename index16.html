@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StarLive - Creative Organization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        /* Theme Backgrounds */
+        body.spring {
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd4e8 100%);
+        }
+
+        body.summer {
+            background: linear-gradient(135deg, #e0f7ff 0%, #b3e5fc 50%, #81d4fa 100%);
+        }
+
+        body.autumn {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffcc80 100%);
+        }
+
+        body.winter {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+        }
+
+        /* Animation Canvas */
+        #animation-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Navigation Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 28px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, #ff6b9d15, #c4456915);
+            color: #c44569;
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+        }
+
+        .nav-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header Section */
+        .page-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 60px 50px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(196, 69, 105, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #c44569;
+            border: 2px solid #c44569;
+        }
+
+        .btn-secondary:hover {
+            background: #c44569;
+            color: white;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Profile Section */
+        .profile-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            flex-shrink: 0;
+        }
+
+        .profile-info h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .profile-info p {
+            color: #666;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .info-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            position: relative;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #c44569;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Social Cards */
+        .social-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-card:hover {
+            transform: scale(1.05);
+        }
+
+        .social-icon-large {
+            font-size: 48px;
+        }
+
+        .social-info h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .social-info p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .social-handle {
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        /* Settings FAB */
+        .settings-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(118, 75, 162, 0.4);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .settings-fab:hover {
+            transform: scale(1.1);
+        }
+
+        .settings-fab-icon {
+            font-size: 28px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .settings-fab.active .settings-fab-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Settings Panel */
+        .settings-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .settings-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .settings-panel {
+            position: fixed;
+            right: -450px;
+            top: 0;
+            width: 450px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+        }
+
+        .settings-panel.active {
+            right: 0;
+        }
+
+        .settings-header {
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .settings-close {
+            float: right;
+            font-size: 32px;
+            cursor: pointer;
+            line-height: 1;
+            color: white;
+        }
+
+        .settings-title {
+            font-size: 24px;
+            margin-bottom: 5px;
+            clear: both;
+            padding-top: 10px;
+        }
+
+        .settings-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .settings-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .settings-user-info h4 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .settings-user-info p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .settings-body {
+            padding: 30px;
+        }
+
+        .settings-section {
+            margin-bottom: 35px;
+        }
+
+        .settings-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .settings-section-icon {
+            font-size: 24px;
+        }
+
+        .settings-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .settings-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .theme-option {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .theme-option.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+        }
+
+        .theme-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .theme-name {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .toggle-label {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: #ccc;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: #4caf50;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: left 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active::after {
+            left: 27px;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .language-option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .language-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .language-option.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        /* Mobile Toggle */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 101;
+            box-shadow: 0 4px 15px rgba(196, 69, 105, 0.3);
+        }
+
+        .mobile-toggle span {
+            color: white;
+            font-size: 24px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .page-header {
+                padding: 40px 30px;
+            }
+
+            .page-header h1 {
+                font-size: 32px;
+            }
+
+            .profile-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="spring">
+    <canvas id="animation-canvas"></canvas>
+
+    <!-- Mobile Menu Toggle -->
+    <div class="mobile-toggle" onclick="toggleSidebar()">
+        <span>☰</span>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 id="sidebar-title">StarLive</h1>
+            <p id="sidebar-subtitle">Creative Organization</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a class="nav-link active" onclick="navigateTo('home')">
+                    <span class="nav-icon">🏠</span>
+                    <span id="nav-home">Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="navigateTo('profile')">
+                    <span class="nav-icon">👤</span>
+                    <span id="nav-profile">Profile</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="navigateTo('creator')">
+                    <span class="nav-icon">✨</span>
+                    <span id="nav-creator">Creator</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="navigateTo('affiliation')">
+                    <span class="nav-icon">🤝</span>
+                    <span id="nav-affiliation">Affiliation</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="navigateTo('project')">
+                    <span class="nav-icon">🚀</span>
+                    <span id="nav-project">Project</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="navigateTo('gallery')">
+                    <span class="nav-icon">📷</span>
+                    <span id="nav-gallery">Gallery</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="navigateTo('store')">
+                    <span class="nav-icon">🛍️</span>
+                    <span id="nav-store">Store</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="navigateTo('social')">
+                    <span class="nav-icon">🌐</span>
+                    <span id="nav-social">Social</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        <!-- Content will be loaded dynamically -->
+    </main>
+
+    <!-- Settings FAB -->
+    <div class="settings-fab" onclick="toggleSettings()">
+        <span class="settings-fab-icon">⚙️</span>
+    </div>
+
+    <!-- Settings Overlay -->
+    <div class="settings-overlay" id="settings-overlay" onclick="toggleSettings()"></div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-header">
+            <span class="settings-close" onclick="toggleSettings()">✕</span>
+            <h2 class="settings-title" id="settings-main-title">Settings & Preferences</h2>
+            <div class="settings-user">
+                <div class="settings-avatar">👤</div>
+                <div class="settings-user-info">
+                    <h4>StarLive User</h4>
+                    <p>user@starlive.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="settings-body">
+            <!-- Theme Section -->
+            <div class="settings-section">
+                <div class="settings-section-header">
+                    <span class="settings-section-icon">🎨</span>
+                    <h3 class="settings-section-title" id="settings-theme-title">Theme Settings</h3>
+                </div>
+                <p class="settings-description" id="settings-theme-desc">Choose your preferred theme and color scheme for the best experience.</p>
+                <div class="theme-grid">
+                    <div class="theme-option active" onclick="setTheme('spring')">
+                        <div class="theme-icon">🌸</div>
+                        <div class="theme-name">Spring</div>
+                    </div>
+                    <div class="theme-option" onclick="setTheme('summer')">
+                        <div class="theme-icon">☀️</div>
+                        <div class="theme-name">Summer</div>
+                    </div>
+                    <div class="theme-option" onclick="setTheme('autumn')">
+                        <div class="theme-icon">🍂</div>
+                        <div class="theme-name">Autumn</div>
+                    </div>
+                    <div class="theme-option" onclick="setTheme('winter')">
+                        <div class="theme-icon">❄️</div>
+                        <div class="theme-name">Winter</div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div class="toggle-container">
+                        <span class="toggle-label" id="auto-season-label">Auto Season Mode</span>
+                        <div class="toggle-switch" id="auto-season-toggle" onclick="toggleAutoSeason()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Animation Section -->
+            <div class="settings-section">
+                <div class="settings-section-header">
+                    <span class="settings-section-icon">✨</span>
+                    <h3 class="settings-section-title" id="settings-animation-title">Animation Control</h3>
+                </div>
+                <p class="settings-description" id="settings-animation-desc">Control background animations and visual effects.</p>
+                <div class="toggle-container">
+                    <span class="toggle-label" id="snow-animation-label">Background Animation</span>
+                    <div class="toggle-switch active" id="animation-toggle" onclick="toggleAnimation()"></div>
+                </div>
+                <div class="toggle-container">
+                    <span class="toggle-label" id="hover-effects-label">Hover Effects</span>
+                    <div class="toggle-switch active" id="hover-toggle" onclick="toggleHoverEffects()"></div>
+                </div>
+            </div>
+
+            <!-- Language Section -->
+            <div class="settings-section">
+                <div class="settings-section-header">
+                    <span class="settings-section-icon">🌐</span>
+                    <h3 class="settings-section-title" id="settings-language-title">Language Selection</h3>
+                </div>
+                <p class="settings-description" id="settings-language-desc">Choose your preferred language for the interface.</p>
+                <div class="language-grid">
+                    <div class="language-option active" onclick="setLanguage('id')">
+                        <div>🇮🇩 Bahasa Indonesia</div>
+                    </div>
+                    <div class="language-option" onclick="setLanguage('en')">
+                        <div>🇬🇧 English</div>
+                    </div>
+                    <div class="language-option" onclick="setLanguage('jp')">
+                        <div>🇯🇵 日本語</div>
+                    </div>
+                    <div class="language-option" onclick="setLanguage('cn')">
+                        <div>🇨🇳 中文</div>
+                    </div>
+                    <div class="language-option" onclick="setLanguage('de')">
+                        <div>🇩🇪 Deutsch</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="settings-section">
+                <div class="settings-section-header">
+                    <span class="settings-section-icon">🔔</span>
+                    <h3 class="settings-section-title" id="settings-notification-title">Notification Preferences</h3>
+                </div>
+                <p class="settings-description" id="settings-notification-desc">Manage your notification settings and alerts.</p>
+                <div class="toggle-container">
+                    <span class="toggle-label" id="email-notif-label">Email Notifications</span>
+                    <div class="toggle-switch active" id="email-toggle" onclick="toggleEmailNotifications()"></div>
+                </div>
+                <div class="toggle-container">
+                    <span class="toggle-label" id="push-notif-label">Push Notifications</span>
+                    <div class="toggle-switch" id="push-toggle" onclick="togglePushNotifications()"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Translations
+        const translations = {
+            id: {
+                sidebarTitle: 'StarLive',
+                sidebarSubtitle: 'Organisasi Kreatif',
+                navHome: 'Beranda',
+                navProfile: 'Profil',
+                navCreator: 'Kreator',
+                navAffiliation: 'Afiliasi',
+                navProject: 'Proyek',
+                navGallery: 'Galeri',
+                navStore: 'Toko',
+                navSocial: 'Sosial',
+                settingsMainTitle: 'Pengaturan & Preferensi',
+                settingsThemeTitle: 'Pengaturan Tema',
+                settingsThemeDesc: 'Pilih tema dan skema warna yang Anda sukai untuk pengalaman terbaik.',
+                settingsAnimationTitle: 'Kontrol Animasi',
+                settingsAnimationDesc: 'Kontrol animasi latar belakang dan efek visual.',
+                settingsLanguageTitle: 'Pilihan Bahasa',
+                settingsLanguageDesc: 'Pilih bahasa yang Anda sukai untuk antarmuka.',
+                settingsNotificationTitle: 'Preferensi Notifikasi',
+                settingsNotificationDesc: 'Kelola pengaturan notifikasi dan peringatan Anda.',
+                autoSeasonLabel: 'Mode Musim Otomatis',
+                snowAnimationLabel: 'Animasi Latar Belakang',
+                hoverEffectsLabel: 'Efek Hover',
+                emailNotifLabel: 'Notifikasi Email',
+                pushNotifLabel: 'Notifikasi Push',
+                home: {
+                    title: 'Selamat Datang di StarLive',
+                    subtitle: 'Menciptakan pengalaman digital yang indah dengan desain yang bersih dan minimalis',
+                    subtitle2: '星の世界へようこそ',
+                    exploreBtn: '🚀 Jelajahi Karya',
+                    contactBtn: '📧 Hubungi Kami',
+                    aboutTitle: 'Tentang Kami',
+                    aboutText: 'StarLive adalah organisasi kreatif yang berfokus pada pengembangan konten digital, kolaborasi kreator, dan inovasi teknologi. Kami menghubungkan talenta kreatif dengan peluang untuk berkembang.',
+                    updatesTitle: 'Pembaruan Terbaru',
+                    update1: 'Proyek kolaborasi baru diluncurkan!',
+                    update2: 'Event komunitas bulan depan',
+                    update3: '5 kreator baru bergabung'
+                },
+                profile: {
+                    title: 'Profil Organisasi',
+                    subtitle: 'Informasi lengkap tentang StarLive',
+                    aboutTitle: 'Tentang Kami',
+                    personalInfoTitle: 'Informasi Organisasi',
+                    nameLabel: 'Nama',
+                    nameValue: 'StarLive Creative',
+                    establishedLabel: 'Didirikan',
+                    establishedValue: '2023',
+                    locationLabel: 'Lokasi',
+                    locationValue: 'Jakarta, Indonesia',
+                    typeLabel: 'Tipe',
+                    typeValue: 'Organisasi Kreatif',
+                    skillsTitle: 'Keahlian & Spesialisasi',
+                    skill1: 'Produksi Konten Digital',
+                    skill2: 'Manajemen Kreator',
+                    skill3: 'Pengembangan Brand',
+                    skill4: 'Event & Community'
+                },
+                creator: {
+                    title: 'Daftar Kreator',
+                    subtitle: 'Temui talenta kreatif kami'
+                },
+                affiliation: {
+                    title: 'Afiliasi Kami',
+                    subtitle: 'Mitra dan organisasi yang bekerja sama dengan kami'
+                },
+                project: {
+                    title: 'Proyek Kami',
+                    subtitle: 'Karya dan kolaborasi terbaru',
+                    by: 'Oleh'
+                },
+                gallery: {
+                    title: 'Galeri Dokumentasi',
+                    subtitle: 'Momen berharga dari kegiatan kami'
+                },
+                store: {
+                    title: 'Toko StarLive',
+                    subtitle: 'Produk eksklusif dan merchandise'
+                },
+                social: {
+                    title: 'Media Sosial',
+                    subtitle: 'Ikuti kami di berbagai platform'
+                }
+            },
+            en: {
+                sidebarTitle: 'StarLive',
+                sidebarSubtitle: 'Creative Organization',
+                navHome: 'Home',
+                navProfile: 'Profile',
+                navCreator: 'Creator',
+                navAffiliation: 'Affiliation',
+                navProject: 'Project',
+                navGallery: 'Gallery',
+                navStore: 'Store',
+                navSocial: 'Social',
+                settingsMainTitle: 'Settings & Preferences',
+                settingsThemeTitle: 'Theme Settings',
+                settingsThemeDesc: 'Choose your preferred theme and color scheme for the best experience.',
+                settingsAnimationTitle: 'Animation Control',
+                settingsAnimationDesc: 'Control background animations and visual effects.',
+                settingsLanguageTitle: 'Language Selection',
+                settingsLanguageDesc: 'Choose your preferred language for the interface.',
+                settingsNotificationTitle: 'Notification Preferences',
+                settingsNotificationDesc: 'Manage your notification settings and alerts.',
+                autoSeasonLabel: 'Auto Season Mode',
+                snowAnimationLabel: 'Background Animation',
+                hoverEffectsLabel: 'Hover Effects',
+                emailNotifLabel: 'Email Notifications',
+                pushNotifLabel: 'Push Notifications',
+                home: {
+                    title: 'Welcome to StarLive',
+                    subtitle: 'Creating beautiful digital experiences with clean, minimalist design',
+                    subtitle2: 'Welcome to the world of stars',
+                    exploreBtn: '🚀 Explore Work',
+                    contactBtn: '📧 Contact Us',
+                    aboutTitle: 'About Us',
+                    aboutText: 'StarLive is a creative organization focused on digital content development, creator collaboration, and technological innovation.',
+                    updatesTitle: 'Latest Updates',
+                    update1: 'New collaboration project launched!',
+                    update2: 'Community event next month',
+                    update3: '5 new creators joined'
+                },
+                profile: {
+                    title: 'Organization Profile',
+                    subtitle: 'Complete information about StarLive',
+                    aboutTitle: 'About Us',
+                    personalInfoTitle: 'Organization Information',
+                    nameLabel: 'Name',
+                    nameValue: 'StarLive Creative',
+                    establishedLabel: 'Established',
+                    establishedValue: '2023',
+                    locationLabel: 'Location',
+                    locationValue: 'Jakarta, Indonesia',
+                    typeLabel: 'Type',
+                    typeValue: 'Creative Organization',
+                    skillsTitle: 'Skills & Expertise',
+                    skill1: 'Digital Content Production',
+                    skill2: 'Creator Management',
+                    skill3: 'Brand Development',
+                    skill4: 'Event & Community'
+                },
+                creator: {
+                    title: 'Our Creators',
+                    subtitle: 'Meet our creative talents'
+                },
+                affiliation: {
+                    title: 'Our Affiliations',
+                    subtitle: 'Partners and organizations working with us'
+                },
+                project: {
+                    title: 'Our Projects',
+                    subtitle: 'Latest works and collaborations',
+                    by: 'By'
+                },
+                gallery: {
+                    title: 'Documentation Gallery',
+                    subtitle: 'Precious moments from our activities'
+                },
+                store: {
+                    title: 'StarLive Store',
+                    subtitle: 'Exclusive products and merchandise'
+                },
+                social: {
+                    title: 'Social Media',
+                    subtitle: 'Follow us on various platforms'
+                }
+            },
+            jp: {
+                sidebarTitle: 'StarLive',
+                sidebarSubtitle: 'クリエイティブ組織',
+                navHome: 'ホーム',
+                navProfile: 'プロフィール',
+                navCreator: 'クリエイター',
+                navAffiliation: '提携',
+                navProject: 'プロジェクト',
+                navGallery: 'ギャラリー',
+                navStore: 'ストア',
+                navSocial: 'ソーシャル',
+                settingsMainTitle: '設定と環境設定',
+                settingsThemeTitle: 'テーマ設定',
+                settingsThemeDesc: '最高のエクスペリエンスのために、お好みのテーマとカラースキームを選択してください。',
+                settingsAnimationTitle: 'アニメーション制御',
+                settingsAnimationDesc: '背景アニメーションと視覚効果を制御します。',
+                settingsLanguageTitle: '言語選択',
+                settingsLanguageDesc: 'インターフェースの言語を選択してください。',
+                settingsNotificationTitle: '通知設定',
+                settingsNotificationDesc: '通知設定とアラートを管理します。',
+                autoSeasonLabel: '自動シーズンモード',
+                snowAnimationLabel: '背景アニメーション',
+                hoverEffectsLabel: 'ホバー効果',
+                emailNotifLabel: 'メール通知',
+                pushNotifLabel: 'プッシュ通知',
+                home: {
+                    title: 'StarLiveへようこそ',
+                    subtitle: 'クリーンでミニマリストなデザインで美しいデジタル体験を創造',
+                    subtitle2: '星の世界へようこそ',
+                    exploreBtn: '🚀 作品を見る',
+                    contactBtn: '📧 お問い合わせ',
+                    aboutTitle: '私たちについて',
+                    aboutText: 'StarLiveは、デジタルコンテンツ開発、クリエイターコラボレーション、技術革新に焦点を当てたクリエイティブ組織です。',
+                    updatesTitle: '最新情報',
+                    update1: '新しいコラボプロジェクト開始！',
+                    update2: '来月コミュニティイベント',
+                    update3: '5人の新しいクリエイターが参加'
+                },
+                profile: {
+                    title: '組織プロフィール',
+                    subtitle: 'StarLiveに関する完全な情報',
+                    aboutTitle: '私たちについて',
+                    personalInfoTitle: '組織情報',
+                    nameLabel: '名前',
+                    nameValue: 'StarLive Creative',
+                    establishedLabel: '設立',
+                    establishedValue: '2023年',
+                    locationLabel: '場所',
+                    locationValue: 'ジャカルタ、インドネシア',
+                    typeLabel: 'タイプ',
+                    typeValue: 'クリエイティブ組織',
+                    skillsTitle: 'スキルと専門知識',
+                    skill1: 'デジタルコンテンツ制作',
+                    skill2: 'クリエイター管理',
+                    skill3: 'ブランド開発',
+                    skill4: 'イベント＆コミュニティ'
+                },
+                creator: {
+                    title: 'クリエイター',
+                    subtitle: '私たちのクリエイティブな才能'
+                },
+                affiliation: {
+                    title: '提携',
+                    subtitle: '私たちと協力するパートナーと組織'
+                },
+                project: {
+                    title: 'プロジェクト',
+                    subtitle: '最新の作品とコラボレーション',
+                    by: '作成者'
+                },
+                gallery: {
+                    title: 'ギャラリー',
+                    subtitle: '私たちの活動からの貴重な瞬間'
+                },
+                store: {
+                    title: 'ストア',
+                    subtitle: '限定商品とグッズ'
+                },
+                social: {
+                    title: 'ソーシャルメディア',
+                    subtitle: '様々なプラットフォームでフォロー'
+                }
+            },
+            cn: {
+                sidebarTitle: 'StarLive',
+                sidebarSubtitle: '创意组织',
+                navHome: '主页',
+                navProfile: '简介',
+                navCreator: '创作者',
+                navAffiliation: '附属机构',
+                navProject: '项目',
+                navGallery: '画廊',
+                navStore: '商店',
+                navSocial: '社交',
+                settingsMainTitle: '设置和偏好',
+                settingsThemeTitle: '主题设置',
+                settingsThemeDesc: '选择您喜欢的主题和配色方案以获得最佳体验。',
+                settingsAnimationTitle: '动画控制',
+                settingsAnimationDesc: '控制背景动画和视觉效果。',
+                settingsLanguageTitle: '语言选择',
+                settingsLanguageDesc: '选择界面的首选语言。',
+                settingsNotificationTitle: '通知偏好',
+                settingsNotificationDesc: '管理您的通知设置和警报。',
+                autoSeasonLabel: '自动季节模式',
+                snowAnimationLabel: '背景动画',
+                hoverEffectsLabel: '悬停效果',
+                emailNotifLabel: '电子邮件通知',
+                pushNotifLabel: '推送通知',
+                home: {
+                    title: '欢迎来到StarLive',
+                    subtitle: '以简洁、简约的设计创造美丽的数字体验',
+                    subtitle2: '欢迎来到星星的世界',
+                    exploreBtn: '🚀 探索作品',
+                    contactBtn: '📧 联系我们',
+                    aboutTitle: '关于我们',
+                    aboutText: 'StarLive是一个专注于数字内容开发、创作者协作和技术创新的创意组织。',
+                    updatesTitle: '最新更新',
+                    update1: '新的合作项目启动！',
+                    update2: '下个月社区活动',
+                    update3: '5位新创作者加入'
+                },
+                profile: {
+                    title: '组织简介',
+                    subtitle: '关于StarLive的完整信息',
+                    aboutTitle: '关于我们',
+                    personalInfoTitle: '组织信息',
+                    nameLabel: '名称',
+                    nameValue: 'StarLive Creative',
+                    establishedLabel: '成立',
+                    establishedValue: '2023年',
+                    locationLabel: '地点',
+                    locationValue: '雅加达，印度尼西亚',
+                    typeLabel: '类型',
+                    typeValue: '创意组织',
+                    skillsTitle: '技能与专长',
+                    skill1: '数字内容制作',
+                    skill2: '创作者管理',
+                    skill3: '品牌开发',
+                    skill4: '活动与社区'
+                },
+                creator: {
+                    title: '创作者',
+                    subtitle: '认识我们的创意人才'
+                },
+                affiliation: {
+                    title: '附属机构',
+                    subtitle: '与我们合作的合作伙伴和组织'
+                },
+                project: {
+                    title: '项目',
+                    subtitle: '最新作品和合作',
+                    by: '由'
+                },
+                gallery: {
+                    title: '画廊',
+                    subtitle: '我们活动中的珍贵时刻'
+                },
+                store: {
+                    title: '商店',
+                    subtitle: '独家产品和商品'
+                },
+                social: {
+                    title: '社交媒体',
+                    subtitle: '在各种平台上关注我们'
+                }
+            },
+            de: {
+                sidebarTitle: 'StarLive',
+                sidebarSubtitle: 'Kreative Organisation',
+                navHome: 'Startseite',
+                navProfile: 'Profil',
+                navCreator: 'Schöpfer',
+                navAffiliation: 'Zugehörigkeit',
+                navProject: 'Projekt',
+                navGallery: 'Galerie',
+                navStore: 'Geschäft',
+                navSocial: 'Sozial',
+                settingsMainTitle: 'Einstellungen & Präferenzen',
+                settingsThemeTitle: 'Theme-Einstellungen',
+                settingsThemeDesc: 'Wählen Sie Ihr bevorzugtes Theme und Farbschema für die beste Erfahrung.',
+                settingsAnimationTitle: 'Animationssteuerung',
+                settingsAnimationDesc: 'Steuerung von Hintergrundanimationen und visuellen Effekten.',
+                settingsLanguageTitle: 'Sprachauswahl',
+                settingsLanguageDesc: 'Wählen Sie Ihre bevorzugte Sprache für die Benutzeroberfläche.',
+                settingsNotificationTitle: 'Benachrichtigungspräferenzen',
+                settingsNotificationDesc: 'Verwalten Sie Ihre Benachrichtigungseinstellungen und Alarme.',
+                autoSeasonLabel: 'Automatischer Saisonmodus',
+                snowAnimationLabel: 'Hintergrundanimation',
+                hoverEffectsLabel: 'Hover-Effekte',
+                emailNotifLabel: 'E-Mail-Benachrichtigungen',
+                pushNotifLabel: 'Push-Benachrichtigungen',
+                home: {
+                    title: 'Willkommen bei StarLive',
+                    subtitle: 'Erstellen Sie schöne digitale Erlebnisse mit sauberem, minimalistischem Design',
+                    subtitle2: 'Willkommen in der Welt der Sterne',
+                    exploreBtn: '🚀 Arbeit erkunden',
+                    contactBtn: '📧 Kontaktieren Sie uns',
+                    aboutTitle: 'Über uns',
+                    aboutText: 'StarLive ist eine kreative Organisation, die sich auf digitale Inhaltsentwicklung, Zusammenarbeit mit Schöpfern und technologische Innovation konzentriert.',
+                    updatesTitle: 'Neueste Updates',
+                    update1: 'Neues Kooperationsprojekt gestartet!',
+                    update2: 'Community-Event nächsten Monat',
+                    update3: '5 neue Schöpfer beigetreten'
+                },
+                profile: {
+                    title: 'Organisationsprofil',
+                    subtitle: 'Vollständige Informationen über StarLive',
+                    aboutTitle: 'Über uns',
+                    personalInfoTitle: 'Organisationsinformationen',
+                    nameLabel: 'Name',
+                    nameValue: 'StarLive Creative',
+                    establishedLabel: 'Gegründet',
+                    establishedValue: '2023',
+                    locationLabel: 'Standort',
+                    locationValue: 'Jakarta, Indonesien',
+                    typeLabel: 'Typ',
+                    typeValue: 'Kreative Organisation',
+                    skillsTitle: 'Fähigkeiten & Expertise',
+                    skill1: 'Digitale Inhaltsproduktion',
+                    skill2: 'Schöpferverwaltung',
+                    skill3: 'Markenentwicklung',
+                    skill4: 'Event & Community'
+                },
+                creator: {
+                    title: 'Schöpfer',
+                    subtitle: 'Treffen Sie unsere kreativen Talente'
+                },
+                affiliation: {
+                    title: 'Zugehörigkeiten',
+                    subtitle: 'Partner und Organisationen, die mit uns arbeiten'
+                },
+                project: {
+                    title: 'Projekte',
+                    subtitle: 'Neueste Arbeiten und Kooperationen',
+                    by: 'Von'
+                },
+                gallery: {
+                    title: 'Galerie',
+                    subtitle: 'Kostbare Momente aus unseren Aktivitäten'
+                },
+                store: {
+                    title: 'Geschäft',
+                    subtitle: 'Exklusive Produkte und Merchandise'
+                },
+                social: {
+                    title: 'Soziale Medien',
+                    subtitle: 'Folgen Sie uns auf verschiedenen Plattformen'
+                }
+            }
+        };
+
+        // State
+        let currentTheme = 'spring';
+        let currentLang = 'id';
+        let currentPage = 'home';
+        let animationEnabled = true;
+        let autoSeasonEnabled = false;
+        let hoverEnabled = true;
+        let animationItems = [];
+
+        // Animation Canvas
+        const canvas = document.getElementById('animation-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Particle Class
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.speed = 1 + Math.random() * 2;
+                this.size = 10 + Math.random() * 20;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 2;
+                this.opacity = 0.6 + Math.random() * 0.4;
+                this.drift = (Math.random() - 0.5) * 2;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += this.drift;
+                this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height) this.reset();
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+
+                if (currentTheme === 'winter') {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    for (let i = 0; i < 6; i++) {
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(0, -this.size);
+                        ctx.rotate(Math.PI / 3);
+                    }
+                    ctx.fill();
+                } else if (currentTheme === 'autumn') {
+                    ctx.fillStyle = '#ff6b35';
+                    ctx.beginPath();
+                    ctx.moveTo(0, -this.size);
+                    ctx.lineTo(this.size * 0.3, 0);
+                    ctx.lineTo(this.size * 0.5, this.size * 0.5);
+                    ctx.lineTo(0, this.size * 0.3);
+                    ctx.lineTo(-this.size * 0.5, this.size * 0.5);
+                    ctx.lineTo(-this.size * 0.3, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                } else if (currentTheme === 'spring') {
+                    ctx.fillStyle = '#ffb7c5';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size * 0.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#ff8fab';
+                    ctx.beginPath();
+                    ctx.arc(this.size * 0.2, 0, this.size * 0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (currentTheme === 'summer') {
+                    ctx.fillStyle = '#4caf50';
+                    for (let i = 0; i < 4; i++) {
+                        ctx.beginPath();
+                        ctx.arc(Math.cos(i * Math.PI / 2) * this.size * 0.3, 
+                                Math.sin(i * Math.PI / 2) * this.size * 0.3, 
+                                this.size * 0.4, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                ctx.restore();
+            }
+        }
+
+        function initAnimation() {
+            animationItems = [];
+            for (let i = 0; i < 50; i++) {
+                animationItems.push(new Particle());
+            }
+        }
+
+        function animate() {
+            if (animationEnabled) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                animationItems.forEach(item => {
+                    item.update();
+                    item.draw();
+                });
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            requestAnimationFrame(animate);
+        }
+
+        initAnimation();
+        animate();
+
+        // Navigation
+        function navigateTo(page) {
+            currentPage = page;
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            event.target.closest('.nav-link').classList.add('active');
+            loadPage(page);
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function toggleSettings() {
+            const fab = document.querySelector('.settings-fab');
+            const overlay = document.getElementById('settings-overlay');
+            const panel = document.getElementById('settings-panel');
+            fab.classList.toggle('active');
+            overlay.classList.toggle('active');
+            panel.classList.toggle('active');
+        }
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            document.body.className = theme;
+            document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+            event.target.closest('.theme-option').classList.add('active');
+            initAnimation();
+        }
+
+        function toggleAutoSeason() {
+            autoSeasonEnabled = !autoSeasonEnabled;
+            document.getElementById('auto-season-toggle').classList.toggle('active');
+            if (autoSeasonEnabled) {
+                const month = new Date().getMonth() + 1;
+                let season;
+                if (month >= 3 && month <= 5) season = 'spring';
+                else if (month >= 6 && month <= 8) season = 'summer';
+                else if (month >= 9 && month <= 11) season = 'autumn';
+                else season = 'winter';
+                currentTheme = season;
+                document.body.className = season;
+                initAnimation();
+            }
+        }
+
+        function toggleAnimation() {
+            animationEnabled = !animationEnabled;
+            document.getElementById('animation-toggle').classList.toggle('active');
+        }
+
+        function toggleHoverEffects() {
+            hoverEnabled = !hoverEnabled;
+            document.getElementById('hover-toggle').classList.toggle('active');
+        }
+
+        function toggleEmailNotifications() {
+            document.getElementById('email-toggle').classList.toggle('active');
+        }
+
+        function togglePushNotifications() {
+            document.getElementById('push-toggle').classList.toggle('active');
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.language-option').forEach(opt => opt.classList.remove('active'));
+            event.target.closest('.language-option').classList.add('active');
+            updateLanguage();
+            loadPage(currentPage);
+        }
+
+        function updateLanguage() {
+            const t = translations[currentLang];
+            document.getElementById('sidebar-title').textContent = t.sidebarTitle;
+            document.getElementById('sidebar-subtitle').textContent = t.sidebarSubtitle;
+            document.getElementById('nav-home').textContent = t.navHome;
+            document.getElementById('nav-profile').textContent = t.navProfile;
+            document.getElementById('nav-creator').textContent = t.navCreator;
+            document.getElementById('nav-affiliation').textContent = t.navAffiliation;
+            document.getElementById('nav-project').textContent = t.navProject;
+            document.getElementById('nav-gallery').textContent = t.navGallery;
+            document.getElementById('nav-store').textContent = t.navStore;
+            document.getElementById('nav-social').textContent = t.navSocial;
+            document.getElementById('settings-main-title').textContent = t.settingsMainTitle;
+            document.getElementById('settings-theme-title').textContent = t.settingsThemeTitle;
+            document.getElementById('settings-theme-desc').textContent = t.settingsThemeDesc;
+            document.getElementById('settings-animation-title').textContent = t.settingsAnimationTitle;
+            document.getElementById('settings-animation-desc').textContent = t.settingsAnimationDesc;
+            document.getElementById('settings-language-title').textContent = t.settingsLanguageTitle;
+            document.getElementById('settings-language-desc').textContent = t.settingsLanguageDesc;
+            document.getElementById('settings-notification-title').textContent = t.settingsNotificationTitle;
+            document.getElementById('settings-notification-desc').textContent = t.settingsNotificationDesc;
+            document.getElementById('auto-season-label').textContent = t.autoSeasonLabel;
+            document.getElementById('snow-animation-label').textContent = t.snowAnimationLabel;
+            document.getElementById('hover-effects-label').textContent = t.hoverEffectsLabel;
+            document.getElementById('email-notif-label').textContent = t.emailNotifLabel;
+            document.getElementById('push-notif-label').textContent = t.pushNotifLabel;
+        }
+
+        // Page Loading
+        function loadPage(page) {
+            const content = document.getElementById('main-content');
+            const t = translations[currentLang][page];
+
+            switch(page) {
+                case 'home':
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1>${t.title}</h1>
+                            <p>${t.subtitle}</p>
+                            <p style="font-size: 14px; color: #999;">${t.subtitle2}</p>
+                            <div class="header-buttons">
+                                <button class="btn btn-primary">${t.exploreBtn}</button>
+                                <button class="btn btn-secondary">${t.contactBtn}</button>
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <h2 class="section-title">${t.personalInfoTitle}</h2>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">${t.nameLabel}</div>
+                                    <div class="info-value">${t.nameValue}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">${t.establishedLabel}</div>
+                                    <div class="info-value">${t.establishedValue}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">${t.locationLabel}</div>
+                                    <div class="info-value">${t.locationValue}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">${t.typeLabel}</div>
+                                    <div class="info-value">${t.typeValue}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <h2 class="section-title">${t.skillsTitle}</h2>
+                            <div class="card-grid">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">💻 ${t.skill1}</h3>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">👥 ${t.skill2}</h3>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">🎨 ${t.skill3}</h3>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">🎉 ${t.skill4}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'creator':
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1>${t.title}</h1>
+                            <p>${t.subtitle}</p>
+                        </div>
+                        <div class="content-section">
+                            <div class="card-grid">
+                                ${generateCreatorCards()}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'affiliation':
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1>${t.title}</h1>
+                            <p>${t.subtitle}</p>
+                        </div>
+                        <div class="content-section">
+                            <div class="card-grid">
+                                ${generateAffiliationCards()}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'project':
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1>${t.title}</h1>
+                            <p>${t.subtitle}</p>
+                        </div>
+                        <div class="content-section">
+                            <div class="card-grid">
+                                ${generateProjectCards()}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'gallery':
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1>${t.title}</h1>
+                            <p>${t.subtitle}</p>
+                        </div>
+                        <div class="content-section">
+                            <div class="card-grid">
+                                ${generateGalleryCards()}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'store':
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1>${t.title}</h1>
+                            <p>${t.subtitle}</p>
+                        </div>
+                        <div class="content-section">
+                            <div class="card-grid">
+                                ${generateStoreCards()}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'social':
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <h1>${t.title}</h1>
+                            <p>${t.subtitle}</p>
+                        </div>
+                        <div class="content-section">
+                            <div class="card-grid">
+                                ${generateSocialCards()}
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+        }
+
+        function generateCreatorCards() {
+            const creators = [
+                { name: 'Aria Sakura', role: 'Content Creator', specialty: 'Gaming & Streaming', emoji: '🎮' },
+                { name: 'Leo Chen', role: 'Video Editor', specialty: 'Motion Graphics', emoji: '🎬' },
+                { name: 'Maya Winters', role: 'Illustrator', specialty: 'Digital Art', emoji: '🎨' },
+                { name: 'Kai Storm', role: 'Music Producer', specialty: 'Electronic Music', emoji: '🎵' },
+                { name: 'Luna Star', role: 'Writer', specialty: 'Storytelling', emoji: '✍️' },
+                { name: 'Nova Ray', role: '3D Artist', specialty: 'Character Design', emoji: '🎭' }
+            ];
+
+            return creators.map(c => `
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #ff6b9d, #c44569);">
+                        <span style="font-size: 72px;">${c.emoji}</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${c.name}</h3>
+                        <p class="card-description">${c.role}</p>
+                        <div class="card-tags">
+                            <span class="tag">${c.specialty}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateAffiliationCards() {
+            const affiliations = [
+                { name: 'TechHub Studio', desc: 'Technology & Innovation Partner', type: 'Technology', emoji: '💻' },
+                { name: 'Creative Minds', desc: 'Design & Branding Partner', type: 'Design', emoji: '🎨' },
+                { name: 'Digital Wave', desc: 'Marketing & Strategy Partner', type: 'Marketing', emoji: '📱' },
+                { name: 'StreamPro Network', desc: 'Streaming Platform Partner', type: 'Platform', emoji: '📺' }
+            ];
+
+            return affiliations.map(a => `
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <span style="font-size: 72px;">${a.emoji}</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${a.name}</h3>
+                        <p class="card-description">${a.desc}</p>
+                        <div class="card-tags">
+                            <span class="tag">${a.type}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateProjectCards() {
+            const t = translations[currentLang].project;
+            const projects = [
+                { title: 'StarFest 2025', creators: 'Aria, Leo, Maya', desc: 'Annual community festival', emoji: '🎉', tags: ['Event', 'Community'] },
+                { title: 'Digital Dreamscape', creators: 'Nova, Kai', desc: '3D Interactive Experience', emoji: '🌌', tags: ['3D', 'Interactive'] },
+                { title: 'Story Chronicles', creators: 'Luna, Maya', desc: 'Illustrated Story Series', emoji: '📖', tags: ['Story', 'Art'] },
+                { title: 'Beat Fusion', creators: 'Kai, Leo', desc: 'Music & Video Collaboration', emoji: '🎶', tags: ['Music', 'Video'] }
+            ];
+
+            return projects.map(p => `
+                <div class="card">
+                    <div class="card-image">
+                        <span style="font-size: 72px;">${p.emoji}</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${p.title}</h3>
+                        <p class="card-description">${p.desc}</p>
+                        <p style="color: #999; font-size: 14px; margin-bottom: 10px;">${t.by}: ${p.creators}</p>
+                        <div class="card-tags">
+                            ${p.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateGalleryCards() {
+            const emojis = ['📸', '🎥', '🎭', '🎪', '🎨', '🎬'];
+            const colors = ['#ff6b9d', '#667eea', '#4caf50', '#ff9800', '#2196f3', '#9c27b0'];
+            
+            return emojis.map((emoji, i) => `
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, ${colors[i]}, ${colors[i]}cc);">
+                        <span style="font-size: 72px;">${emoji}</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Event ${i + 1}</h3>
+                        <p class="card-description">Documentation from our activities</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateStoreCards() {
+            const products = [
+                { name: 'StarLive T-Shirt', price: 'Rp 150.000', tag: 'Limited', type: 'limited', emoji: '👕' },
+                { name: 'Hoodie Collection', price: 'Rp 350.000', tag: 'Discount', type: 'discount', emoji: '🧥' },
+                { name: 'Acrylic Stand', price: 'Rp 75.000', tag: null, type: null, emoji: '🎴' },
+                { name: 'Sticker Pack', price: 'Rp 50.000', tag: 'Limited', type: 'limited', emoji: '✨' },
+                { name: 'Art Book', price: 'Rp 200.000', tag: null, type: null, emoji: '📚' },
+                { name: 'Badge Set', price: 'Rp 100.000', tag: 'Discount', type: 'discount', emoji: '🏅' }
+            ];
+
+            return products.map(p => `
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #e0e0e0, #bdbdbd);">
+                        ${p.tag ? `<div class="card-tag">${p.tag}</div>` : ''}
+                        <span style="font-size: 72px;">${p.emoji}</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${p.name}</h3>
+                        <p class="card-description" style="color: #c44569; font-weight: bold; font-size: 18px;">${p.price}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateSocialCards() {
+            const socials = [
+                { name: 'YouTube', handle: '@StarLiveOfficial', desc: 'Subscribe for latest videos', color: '#FF0000', icon: '▶️' },
+                { name: 'Twitter / X', handle: '@StarLive_ID', desc: 'Follow for daily updates', color: '#1DA1F2', icon: '🐦' },
+                { name: 'Instagram', handle: '@starlive.official', desc: 'Visual stories and behind the scenes', color: '#E1306C', icon: '📷' },
+                { name: 'TikTok', handle: '@starlive', desc: 'Short videos and fun content', color: '#000000', icon: '🎵' }
+            ];
+
+            return socials.map(s => `
+                <a href="#" class="social-card" style="background: ${s.color};">
+                    <div class="social-icon-large">${s.icon}</div>
+                    <div class="social-info">
+                        <h3>${s.name}</h3>
+                        <p>${s.desc}</p>
+                        <div class="social-handle">${s.handle}</div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Initialize
+        loadPage('home');
+    </script>
+</body>
+</html> class="section-title">${t.aboutTitle}</h2>
+                            <p class="section-subtitle">${t.aboutText}</p>
+                        </div>
+                        <div class="content-section">
+                            <h2 class="section-title">${t.updatesTitle}</h2>
+                            <div class="card-grid">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">🚀 ${t.update1}</h3>
+                                        <p class="card-description">StarFest 2025 collaboration with top creators</p>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">📅 ${t.update2}</h3>
+                                        <p class="card-description">Join our monthly community gathering</p>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">⭐ ${t.update3}</h3>
+                                        <p class="card-description">Welcome to our growing family!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'profile':
+                    content.innerHTML = `
+                        <div class="page-header">
+                            <div class="profile-image">🏢</div>
+                            <h1>${t.title}</h1>
+                            <p>${t.subtitle}</p>
+                        </div>
+                        <div class="content-section">
+                            <h2
