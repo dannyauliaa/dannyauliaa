@@ -4,197 +4,255 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StarLive - Creative Organization</title>
-    <link rel="stylesheet" href="style15.css">
+    <link rel="stylesheet" href="styles15.css">
 </head>
 <body class="spring">
+    <!-- Background Media Container -->
+    <div id="background-media"></div>
+    
+    <!-- Animation Canvas -->
     <canvas id="animation-canvas"></canvas>
 
-    <!-- Mobile Menu Toggle -->
-    <div class="mobile-toggle" onclick="toggleSidebar()">
-        <span>☰</span>
+    <!-- Header with Logo, Date/Time and Menu Button -->
+    <header class="top-header">
+        <div class="header-left">
+            <a href="#" class="header-logo" onclick="navigateTo('home'); return false;">
+                <div class="logo-icon">⭐</div>
+                <div class="logo-text">StarLive</div>
+            </a>
+        </div>
+        <div class="header-center">
+            <div id="current-datetime">
+                <div id="current-date">Loading...</div>
+                <div id="current-time">--:--:--</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="menu-toggle" onclick="toggleSidebar()">
+                <span>☰</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Welcome Notification -->
+    <div class="welcome-notification" id="welcome-notification">
+        <div class="welcome-icon">✓</div>
+        <div class="welcome-content">
+            <h4>Selamat Datang!</h4>
+            <p>Anda berhasil masuk ke StarLive</p>
+        </div>
+        <div class="welcome-close" onclick="closeWelcomeNotif()">×</div>
     </div>
 
     <!-- Sidebar Navigation -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h1 id="sidebar-title">StarLive</h1>
-            <p id="sidebar-subtitle">Creative Organization</p>
+            <h1>StarLive</h1>
+            <p>Creative Organization</p>
         </div>
         <ul class="nav-menu">
             <li class="nav-item">
                 <a class="nav-link active" onclick="navigateTo('home')">
                     <span class="nav-icon">🏠</span>
-                    <span id="nav-home">Home</span>
+                    <span>Home</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('profile')">
                     <span class="nav-icon">👤</span>
-                    <span id="nav-profile">Profile</span>
+                    <span>Profile</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('creator')">
                     <span class="nav-icon">✨</span>
-                    <span id="nav-creator">Creator</span>
+                    <span>Creator</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('affiliation')">
                     <span class="nav-icon">🤝</span>
-                    <span id="nav-affiliation">Affiliation</span>
+                    <span>Affiliation</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('project')">
                     <span class="nav-icon">🚀</span>
-                    <span id="nav-project">Project</span>
+                    <span>Project</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('gallery')">
                     <span class="nav-icon">📷</span>
-                    <span id="nav-gallery">Gallery</span>
+                    <span>Gallery</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('store')">
                     <span class="nav-icon">🛍️</span>
-                    <span id="nav-store">Store</span>
+                    <span>Store</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('social')">
                     <span class="nav-icon">🌐</span>
-                    <span id="nav-social">Social</span>
+                    <span>Social</span>
                 </a>
             </li>
         </ul>
     </nav>
 
     <!-- Main Content -->
-    <main class="main-content" id="main-content">
-        <!-- Content will be loaded dynamically -->
-    </main>
+    <main class="main-content" id="main-content"></main>
 
-    <!-- Settings FAB -->
+    <!-- Settings FAB (Fixed Action Button) -->
     <div class="settings-fab" onclick="toggleSettings()">
-        <span class="settings-fab-icon">⚙️</span>
+        <span class="settings-fab-icon">+</span>
     </div>
 
-    <!-- Settings Overlay -->
-    <div class="settings-overlay" id="settings-overlay" onclick="toggleSettings()"></div>
-
-    <!-- Settings Panel -->
-    <div class="settings-panel" id="settings-panel">
-        <div class="settings-header">
-            <span class="settings-close" onclick="toggleSettings()">✕</span>
-            <h2 class="settings-title" id="settings-main-title">Settings & Preferences</h2>
-            <div class="settings-user">
-                <div class="settings-avatar">👤</div>
-                <div class="settings-user-info">
-                    <h4>StarLive User</h4>
-                    <p>user@starlive.com</p>
+    <!-- Settings Overlay & Panel (Float Center) -->
+    <div class="settings-overlay" id="settings-overlay" onclick="closeSettingsOverlay(event)">
+        <div class="settings-panel" onclick="event.stopPropagation()">
+            <div class="settings-header">
+                <span class="settings-close" onclick="toggleSettings()">✕</span>
+                <h2 class="settings-title">Settings & Preferences</h2>
+                <div class="settings-user">
+                    <div class="settings-avatar">👤</div>
+                    <div class="settings-user-info">
+                        <h4>StarLive Admin</h4>
+                        <p>admin@starlive.com</p>
+                    </div>
+                    <button class="switch-account-btn" onclick="switchAccount()">Switch Account</button>
                 </div>
             </div>
-        </div>
-        <div class="settings-body">
-            <!-- Theme Section -->
-            <div class="settings-section">
-                <div class="settings-section-header">
-                    <span class="settings-section-icon">🎨</span>
-                    <h3 class="settings-section-title" id="settings-theme-title">Theme Settings</h3>
+            <div class="settings-body">
+                <!-- Background Customization Section -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="settings-section-icon">🖼️</span>
+                        <h3 class="settings-section-title">Background Customization</h3>
+                    </div>
+                    <p class="settings-description">Upload custom background image or video (animation effects will remain visible).</p>
+                    
+                    <div class="background-options">
+                        <button class="btn-small" onclick="document.getElementById('bg-image-input').click()">
+                            📷 Upload Image
+                        </button>
+                        <button class="btn-small" onclick="document.getElementById('bg-video-input').click()">
+                            🎥 Upload Video
+                        </button>
+                        <button class="btn-small btn-danger" onclick="removeBackground()">
+                            🗑️ Remove Background
+                        </button>
+                    </div>
+                    
+                    <input type="file" id="bg-image-input" accept="image/*" style="display: none;" onchange="handleBackgroundImage(event)">
+                    <input type="file" id="bg-video-input" accept="video/*" style="display: none;" onchange="handleBackgroundVideo(event)">
+                    
+                    <div id="background-preview" style="margin-top: 15px; display: none;">
+                        <p style="font-size: 12px; color: #666; margin-bottom: 5px;">Current Background:</p>
+                        <div id="background-preview-content" style="width: 100%; height: 100px; border-radius: 8px; overflow: hidden; background: #f0f0f0;"></div>
+                    </div>
                 </div>
-                <p class="settings-description" id="settings-theme-desc">Choose your preferred theme and color scheme for the best experience.</p>
-                <div class="theme-grid">
-                    <div class="theme-option active" onclick="setTheme('spring')">
-                        <div class="theme-icon">🌸</div>
-                        <div class="theme-name">Spring</div>
+
+                <!-- Theme Section -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="settings-section-icon">🎨</span>
+                        <h3 class="settings-section-title">Theme Settings</h3>
                     </div>
-                    <div class="theme-option" onclick="setTheme('summer')">
-                        <div class="theme-icon">🍀</div>
-                        <div class="theme-name">Summer</div>
+                    <p class="settings-description">Choose your preferred theme and color scheme for the best experience.</p>
+                    <div class="theme-grid">
+                        <div class="theme-option active" onclick="setTheme('spring')">
+                            <div class="theme-icon">🌸</div>
+                            <div class="theme-name">Spring</div>
+                        </div>
+                        <div class="theme-option" onclick="setTheme('summer')">
+                            <div class="theme-icon">☀️</div>
+                            <div class="theme-name">Summer</div>
+                        </div>
+                        <div class="theme-option" onclick="setTheme('autumn')">
+                            <div class="theme-icon">🍂</div>
+                            <div class="theme-name">Autumn</div>
+                        </div>
+                        <div class="theme-option" onclick="setTheme('winter')">
+                            <div class="theme-icon">❄️</div>
+                            <div class="theme-name">Winter</div>
+                        </div>
                     </div>
-                    <div class="theme-option" onclick="setTheme('autumn')">
-                        <div class="theme-icon">🍁</div>
-                        <div class="theme-name">Autumn</div>
-                    </div>
-                    <div class="theme-option" onclick="setTheme('winter')">
-                        <div class="theme-icon">❄️</div>
-                        <div class="theme-name">Winter</div>
+                    <div style="margin-top: 20px;">
+                        <div class="toggle-container">
+                            <span class="toggle-label">Auto Season Mode</span>
+                            <div class="toggle-switch" id="auto-season-toggle" onclick="toggleAutoSeason()"></div>
+                        </div>
                     </div>
                 </div>
-                <div style="margin-top: 20px;">
+
+                <!-- Animation Section -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="settings-section-icon">✨</span>
+                        <h3 class="settings-section-title">Animation Control</h3>
+                    </div>
+                    <p class="settings-description">Control background animations and visual effects.</p>
                     <div class="toggle-container">
-                        <span class="toggle-label" id="auto-season-label">Auto Season Mode</span>
-                        <div class="toggle-switch" id="auto-season-toggle" onclick="toggleAutoSeason()"></div>
+                        <span class="toggle-label">Background Animation</span>
+                        <div class="toggle-switch active" id="animation-toggle" onclick="toggleAnimation()"></div>
+                    </div>
+                    <div class="toggle-container">
+                        <span class="toggle-label">Hover Effects</span>
+                        <div class="toggle-switch active" id="hover-toggle" onclick="toggleHoverEffects()"></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Animation Section -->
-            <div class="settings-section">
-                <div class="settings-section-header">
-                    <span class="settings-section-icon">✨</span>
-                    <h3 class="settings-section-title" id="settings-animation-title">Animation Control</h3>
+                <!-- Language Section -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="settings-section-icon">🌐</span>
+                        <h3 class="settings-section-title">Language Selection</h3>
+                    </div>
+                    <p class="settings-description">Choose your preferred language for the interface.</p>
+                    <div class="language-grid">
+                        <div class="language-option active" onclick="setLanguage('id')">
+                            <div>🇮🇩 Bahasa Indonesia</div>
+                        </div>
+                        <div class="language-option" onclick="setLanguage('en')">
+                            <div>🇬🇧 English</div>
+                        </div>
+                        <div class="language-option" onclick="setLanguage('jp')">
+                            <div>🇯🇵 日本語</div>
+                        </div>
+                        <div class="language-option" onclick="setLanguage('cn')">
+                            <div>🇨🇳 中文</div>
+                        </div>
+                        <div class="language-option" onclick="setLanguage('de')">
+                            <div>🇩🇪 Deutsch</div>
+                        </div>
+                    </div>
                 </div>
-                <p class="settings-description" id="settings-animation-desc">Control background animations and visual effects.</p>
-                <div class="toggle-container">
-                    <span class="toggle-label" id="snow-animation-label">Background Animation</span>
-                    <div class="toggle-switch active" id="animation-toggle" onclick="toggleAnimation()"></div>
-                </div>
-                <div class="toggle-container">
-                    <span class="toggle-label" id="hover-effects-label">Hover Effects</span>
-                    <div class="toggle-switch active" id="hover-toggle" onclick="toggleHoverEffects()"></div>
-                </div>
-            </div>
 
-            <!-- Language Section -->
-            <div class="settings-section">
-                <div class="settings-section-header">
-                    <span class="settings-section-icon">🌐</span>
-                    <h3 class="settings-section-title" id="settings-language-title">Language Selection</h3>
-                </div>
-                <p class="settings-description" id="settings-language-desc">Choose your preferred language for the interface.</p>
-                <div class="language-grid">
-                    <div class="language-option active" onclick="setLanguage('id')">
-                        <div>🇮🇩 Bahasa Indonesia</div>
+                <!-- Notifications Section -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="settings-section-icon">🔔</span>
+                        <h3 class="settings-section-title">Notification Preferences</h3>
                     </div>
-                    <div class="language-option" onclick="setLanguage('en')">
-                        <div>🇬🇧 English</div>
+                    <p class="settings-description">Manage your notification settings and alerts.</p>
+                    <div class="toggle-container">
+                        <span class="toggle-label">Email Notifications</span>
+                        <div class="toggle-switch active" id="email-toggle" onclick="toggleEmailNotifications()"></div>
                     </div>
-                    <div class="language-option" onclick="setLanguage('jp')">
-                        <div>🇯🇵 日本語</div>
+                    <div class="toggle-container">
+                        <span class="toggle-label">Push Notifications</span>
+                        <div class="toggle-switch" id="push-toggle" onclick="togglePushNotifications()"></div>
                     </div>
-                    <div class="language-option" onclick="setLanguage('cn')">
-                        <div>🇨🇳 中文</div>
-                    </div>
-                    <div class="language-option" onclick="setLanguage('de')">
-                        <div>🇩🇪 Deutsch</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Notifications Section -->
-            <div class="settings-section">
-                <div class="settings-section-header">
-                    <span class="settings-section-icon">🔔</span>
-                    <h3 class="settings-section-title" id="settings-notification-title">Notification Preferences</h3>
-                </div>
-                <p class="settings-description" id="settings-notification-desc">Manage your notification settings and alerts.</p>
-                <div class="toggle-container">
-                    <span class="toggle-label" id="email-notif-label">Email Notifications</span>
-                    <div class="toggle-switch active" id="email-toggle" onclick="toggleEmailNotifications()"></div>
-                </div>
-                <div class="toggle-container">
-                    <span class="toggle-label" id="push-notif-label">Push Notifications</span>
-                    <div class="toggle-switch" id="push-toggle" onclick="togglePushNotifications()"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="language15.js"></script>
+    <!-- Load External Scripts -->
+    <script src="data15.js"></script>
     <script src="script15.js"></script>
 </body>
 </html>
