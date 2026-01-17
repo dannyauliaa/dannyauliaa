@@ -6,8 +6,48 @@ let animationEnabled = true;
 let autoSeasonEnabled = false;
 let hoverEnabled = true;
 let animationItems = [];
+let backgroundMedia = null;
 
-// Canvas Setup
+// ========== DATE & TIME ==========
+function updateDateTime() {
+    const now = new Date();
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    const locale = currentLang === 'id' ? 'id-ID' : currentLang === 'en' ? 'en-US' : currentLang === 'jp' ? 'ja-JP' : currentLang === 'cn' ? 'zh-CN' : 'de-DE';
+    const dateStr = now.toLocaleDateString(locale, options);
+    const timeStr = now.toLocaleTimeString(locale, { hour12: false });
+    
+    document.getElementById('current-date').textContent = dateStr;
+    document.getElementById('current-time').textContent = timeStr;
+}
+
+setInterval(updateDateTime, 1000);
+updateDateTime();
+
+// ========== WELCOME NOTIFICATION ==========
+function showWelcomeNotification() {
+    const notif = document.getElementById('welcome-notification');
+    setTimeout(() => {
+        notif.classList.add('show');
+    }, 500);
+    
+    setTimeout(() => {
+        notif.classList.remove('show');
+    }, 5000);
+}
+
+function closeWelcomeNotif() {
+    document.getElementById('welcome-notification').classList.remove('show');
+}
+
+// Show welcome notification on page load
+window.addEventListener('load', showWelcomeNotification);
+
+// ========== CANVAS ANIMATION ==========
 const canvas = document.getElementById('animation-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -18,7 +58,6 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-// Particle Class for Animation
 class Particle {
     constructor() {
         this.reset();
@@ -118,15 +157,16 @@ function animate() {
 initAnimation();
 animate();
 
-// Navigation Functions
+// ========== NAVIGATION ==========
 function navigateTo(page) {
     currentPage = page;
     document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-    event.target.closest('.nav-link').classList.add('active');
-    loadPage(page);
-    if (window.innerWidth <= 768) {
-        toggleSidebar();
+    if (event && event.target) {
+        const navLink = event.target.closest('.nav-link');
+        if (navLink) navLink.classList.add('active');
     }
+    loadPage(page);
+    document.getElementById('sidebar').classList.remove('active');
 }
 
 function toggleSidebar() {
@@ -136,13 +176,17 @@ function toggleSidebar() {
 function toggleSettings() {
     const fab = document.querySelector('.settings-fab');
     const overlay = document.getElementById('settings-overlay');
-    const panel = document.getElementById('settings-panel');
     fab.classList.toggle('active');
     overlay.classList.toggle('active');
-    panel.classList.toggle('active');
 }
 
-// Theme Functions
+function closeSettingsOverlay(event) {
+    if (event.target === event.currentTarget) {
+        toggleSettings();
+    }
+}
+
+// ========== THEME FUNCTIONS ==========
 function setTheme(theme) {
     currentTheme = theme;
     document.body.className = theme;
@@ -167,7 +211,7 @@ function toggleAutoSeason() {
     }
 }
 
-// Animation Functions
+// ========== ANIMATION CONTROLS ==========
 function toggleAnimation() {
     animationEnabled = !animationEnabled;
     document.getElementById('animation-toggle').classList.toggle('active');
@@ -186,44 +230,83 @@ function togglePushNotifications() {
     document.getElementById('push-toggle').classList.toggle('active');
 }
 
-// Language Functions
+// ========== LANGUAGE FUNCTIONS ==========
 function setLanguage(lang) {
     currentLang = lang;
     document.querySelectorAll('.language-option').forEach(opt => opt.classList.remove('active'));
     event.target.closest('.language-option').classList.add('active');
-    updateLanguage();
+    updateDateTime();
     loadPage(currentPage);
 }
 
-function updateLanguage() {
-    const t = translations[currentLang];
-    document.getElementById('sidebar-title').textContent = t.sidebarTitle;
-    document.getElementById('sidebar-subtitle').textContent = t.sidebarSubtitle;
-    document.getElementById('nav-home').textContent = t.navHome;
-    document.getElementById('nav-profile').textContent = t.navProfile;
-    document.getElementById('nav-creator').textContent = t.navCreator;
-    document.getElementById('nav-affiliation').textContent = t.navAffiliation;
-    document.getElementById('nav-project').textContent = t.navProject;
-    document.getElementById('nav-gallery').textContent = t.navGallery;
-    document.getElementById('nav-store').textContent = t.navStore;
-    document.getElementById('nav-social').textContent = t.navSocial;
-    document.getElementById('settings-main-title').textContent = t.settingsMainTitle;
-    document.getElementById('settings-theme-title').textContent = t.settingsThemeTitle;
-    document.getElementById('settings-theme-desc').textContent = t.settingsThemeDesc;
-    document.getElementById('settings-animation-title').textContent = t.settingsAnimationTitle;
-    document.getElementById('settings-animation-desc').textContent = t.settingsAnimationDesc;
-    document.getElementById('settings-language-title').textContent = t.settingsLanguageTitle;
-    document.getElementById('settings-language-desc').textContent = t.settingsLanguageDesc;
-    document.getElementById('settings-notification-title').textContent = t.settingsNotificationTitle;
-    document.getElementById('settings-notification-desc').textContent = t.settingsNotificationDesc;
-    document.getElementById('auto-season-label').textContent = t.autoSeasonLabel;
-    document.getElementById('snow-animation-label').textContent = t.snowAnimationLabel;
-    document.getElementById('hover-effects-label').textContent = t.hoverEffectsLabel;
-    document.getElementById('email-notif-label').textContent = t.emailNotifLabel;
-    document.getElementById('push-notif-label').textContent = t.pushNotifLabel;
+// ========== ACCOUNT SWITCH ==========
+function switchAccount() {
+    // Redirect ke halaman login atau account switch
+    alert('Redirecting to Account Switch Page...\n\nAnda akan diarahkan ke halaman pemilihan akun.');
+    // window.location.href = '/login.html'; // Uncomment untuk redirect
 }
 
-// Page Loading Functions
+// ========== BACKGROUND CUSTOMIZATION ==========
+function handleBackgroundImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            setBackgroundMedia('image', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function handleBackgroundVideo(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            setBackgroundMedia('video', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function setBackgroundMedia(type, src) {
+    const container = document.getElementById('background-media');
+    const preview = document.getElementById('background-preview');
+    const previewContent = document.getElementById('background-preview-content');
+    
+    container.innerHTML = '';
+    
+    if (type === 'image') {
+        const img = document.createElement('img');
+        img.src = src;
+        container.appendChild(img);
+        
+        previewContent.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: cover;">`;
+    } else if (type === 'video') {
+        const video = document.createElement('video');
+        video.src = src;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        container.appendChild(video);
+        
+        previewContent.innerHTML = `<video src="${src}" style="width: 100%; height: 100%; object-fit: cover;" muted loop autoplay></video>`;
+    }
+    
+    preview.style.display = 'block';
+    backgroundMedia = { type, src };
+}
+
+function removeBackground() {
+    const container = document.getElementById('background-media');
+    const preview = document.getElementById('background-preview');
+    
+    container.innerHTML = '';
+    preview.style.display = 'none';
+    backgroundMedia = null;
+}
+
+// ========== PAGE LOADING ==========
 function loadPage(page) {
     const content = document.getElementById('main-content');
     const t = translations[currentLang][page];
@@ -273,7 +356,7 @@ function loadPage(page) {
         case 'profile':
             content.innerHTML = `
                 <div class="page-header">
-                    <div class="profile-image">🏢</div>
+                    <div style="width: 120px; height: 120px; margin: 0 auto 20px; background: linear-gradient(135deg, #ff6b9d, #c44569); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48px;">🏢</div>
                     <h1>${t.title}</h1>
                     <p>${t.subtitle}</p>
                 </div>
@@ -301,26 +384,10 @@ function loadPage(page) {
                 <div class="content-section">
                     <h2 class="section-title">${t.skillsTitle}</h2>
                     <div class="card-grid">
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">💻 ${t.skill1}</h3>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">👥 ${t.skill2}</h3>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">🎨 ${t.skill3}</h3>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">🎉 ${t.skill4}</h3>
-                            </div>
-                        </div>
+                        <div class="card"><div class="card-body"><h3 class="card-title">💻 ${t.skill1}</h3></div></div>
+                        <div class="card"><div class="card-body"><h3 class="card-title">👥 ${t.skill2}</h3></div></div>
+                        <div class="card"><div class="card-body"><h3 class="card-title">🎨 ${t.skill3}</h3></div></div>
+                        <div class="card"><div class="card-body"><h3 class="card-title">🎉 ${t.skill4}</h3></div></div>
                     </div>
                 </div>
             `;
@@ -334,7 +401,20 @@ function loadPage(page) {
                 </div>
                 <div class="content-section">
                     <div class="card-grid">
-                        ${generateCreatorCards()}
+                        ${creatorsData.map(c => `
+                            <a href="${c.link}" class="card">
+                                <div class="card-image" style="background: linear-gradient(135deg, #ff6b9d, #c44569);">
+                                    <span style="font-size: 72px;">${c.emoji}</span>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title">${c.name}</h3>
+                                    <p class="card-description">${c.role}</p>
+                                    <div class="card-tags">
+                                        <span class="tag">${c.specialty}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        `).join('')}
                     </div>
                 </div>
             `;
@@ -348,7 +428,20 @@ function loadPage(page) {
                 </div>
                 <div class="content-section">
                     <div class="card-grid">
-                        ${generateAffiliationCards()}
+                        ${affiliationsData.map(a => `
+                            <div class="card">
+                                <div class="card-image" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                    <span style="font-size: 72px;">${a.emoji}</span>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title">${a.name}</h3>
+                                    <p class="card-description">${a.desc}</p>
+                                    <div class="card-tags">
+                                        <span class="tag">${a.type}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             `;
@@ -362,13 +455,29 @@ function loadPage(page) {
                 </div>
                 <div class="content-section">
                     <div class="card-grid">
-                        ${generateProjectCards()}
+                        ${projectsData.map(p => `
+                            <div class="card">
+                                <div class="card-image">
+                                    <span style="font-size: 72px;">${p.emoji}</span>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title">${p.title}</h3>
+                                    <p class="card-description">${p.desc}</p>
+                                    <p style="color: #999; font-size: 14px; margin-bottom: 10px;">${t.by}: ${p.creators}</p>
+                                    <div class="card-tags">
+                                        ${p.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             `;
             break;
 
         case 'gallery':
+            const galleryEmojis = ['📸', '🎥', '🎭', '🎪', '🎨', '🎬'];
+            const galleryColors = ['#ff6b9d', '#667eea', '#4caf50', '#ff9800', '#2196f3', '#9c27b0'];
             content.innerHTML = `
                 <div class="page-header">
                     <h1>${t.title}</h1>
@@ -376,7 +485,17 @@ function loadPage(page) {
                 </div>
                 <div class="content-section">
                     <div class="card-grid">
-                        ${generateGalleryCards()}
+                        ${galleryEmojis.map((emoji, i) => `
+                            <div class="card">
+                                <div class="card-image" style="background: linear-gradient(135deg, ${galleryColors[i]}, ${galleryColors[i]}cc);">
+                                    <span style="font-size: 72px;">${emoji}</span>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title">Event ${i + 1}</h3>
+                                    <p class="card-description">Documentation from our activities</p>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             `;
@@ -390,7 +509,18 @@ function loadPage(page) {
                 </div>
                 <div class="content-section">
                     <div class="card-grid">
-                        ${generateStoreCards()}
+                        ${productsData.map(p => `
+                            <div class="card">
+                                <div class="card-image" style="background: linear-gradient(135deg, #e0e0e0, #bdbdbd);">
+                                    ${p.tag ? `<div class="card-tag">${p.tag}</div>` : ''}
+                                    <span style="font-size: 72px;">${p.emoji}</span>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title">${p.name}</h3>
+                                    <p class="card-description" style="color: #c44569; font-weight: bold; font-size: 18px;">${p.price}</p>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             `;
@@ -404,150 +534,21 @@ function loadPage(page) {
                 </div>
                 <div class="content-section">
                     <div class="card-grid">
-                        ${generateSocialCards()}
+                        ${socialMediaData.map(s => `
+                            <a href="#" class="social-card" style="background: ${s.color};">
+                                <div class="social-icon-large">${s.icon}</div>
+                                <div class="social-info">
+                                    <h3>${s.name}</h3>
+                                    <p>${s.desc}</p>
+                                    <div class="social-handle">${s.handle}</div>
+                                </div>
+                            </a>
+                        `).join('')}
                     </div>
                 </div>
             `;
             break;
     }
-}
-
-// Content Generator Functions
-function generateCreatorCards() {
-    const creators = [
-        { name: 'Aria Sakura', role: 'Content Creator', specialty: 'Gaming & Streaming', emoji: '🎮' },
-        { name: 'Leo Chen', role: 'Video Editor', specialty: 'Motion Graphics', emoji: '🎬' },
-        { name: 'Maya Winters', role: 'Illustrator', specialty: 'Digital Art', emoji: '🎨' },
-        { name: 'Kai Storm', role: 'Music Producer', specialty: 'Electronic Music', emoji: '🎵' },
-        { name: 'Luna Star', role: 'Writer', specialty: 'Storytelling', emoji: '✍️' },
-        { name: 'Nova Ray', role: '3D Artist', specialty: 'Character Design', emoji: '🎭' }
-    ];
-
-    return creators.map(c => `
-        <div class="card">
-            <div class="card-image" style="background: linear-gradient(135deg, #ff6b9d, #c44569);">
-                <span style="font-size: 72px;">${c.emoji}</span>
-            </div>
-            <div class="card-body">
-                <h3 class="card-title">${c.name}</h3>
-                <p class="card-description">${c.role}</p>
-                <div class="card-tags">
-                    <span class="tag">${c.specialty}</span>
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-function generateAffiliationCards() {
-    const affiliations = [
-        { name: 'TechHub Studio', desc: 'Technology & Innovation Partner', type: 'Technology', emoji: '💻' },
-        { name: 'Creative Minds', desc: 'Design & Branding Partner', type: 'Design', emoji: '🎨' },
-        { name: 'Digital Wave', desc: 'Marketing & Strategy Partner', type: 'Marketing', emoji: '📱' },
-        { name: 'StreamPro Network', desc: 'Streaming Platform Partner', type: 'Platform', emoji: '📺' }
-    ];
-
-    return affiliations.map(a => `
-        <div class="card">
-            <div class="card-image" style="background: linear-gradient(135deg, #667eea, #764ba2);">
-                <span style="font-size: 72px;">${a.emoji}</span>
-            </div>
-            <div class="card-body">
-                <h3 class="card-title">${a.name}</h3>
-                <p class="card-description">${a.desc}</p>
-                <div class="card-tags">
-                    <span class="tag">${a.type}</span>
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-function generateProjectCards() {
-    const t = translations[currentLang].project;
-    const projects = [
-        { title: 'StarFest 2025', creators: 'Aria, Leo, Maya', desc: 'Annual community festival', emoji: '🎉', tags: ['Event', 'Community'] },
-        { title: 'Digital Dreamscape', creators: 'Nova, Kai', desc: '3D Interactive Experience', emoji: '🌌', tags: ['3D', 'Interactive'] },
-        { title: 'Story Chronicles', creators: 'Luna, Maya', desc: 'Illustrated Story Series', emoji: '📖', tags: ['Story', 'Art'] },
-        { title: 'Beat Fusion', creators: 'Kai, Leo', desc: 'Music & Video Collaboration', emoji: '🎶', tags: ['Music', 'Video'] }
-    ];
-
-    return projects.map(p => `
-        <div class="card">
-            <div class="card-image">
-                <span style="font-size: 72px;">${p.emoji}</span>
-            </div>
-            <div class="card-body">
-                <h3 class="card-title">${p.title}</h3>
-                <p class="card-description">${p.desc}</p>
-                <p style="color: #999; font-size: 14px; margin-bottom: 10px;">${t.by}: ${p.creators}</p>
-                <div class="card-tags">
-                    ${p.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-function generateGalleryCards() {
-    const emojis = ['📸', '🎥', '🎭', '🎪', '🎨', '🎬'];
-    const colors = ['#ff6b9d', '#667eea', '#4caf50', '#ff9800', '#2196f3', '#9c27b0'];
-    
-    return emojis.map((emoji, i) => `
-        <div class="card">
-            <div class="card-image" style="background: linear-gradient(135deg, ${colors[i]}, ${colors[i]}cc);">
-                <span style="font-size: 72px;">${emoji}</span>
-            </div>
-            <div class="card-body">
-                <h3 class="card-title">Event ${i + 1}</h3>
-                <p class="card-description">Documentation from our activities</p>
-            </div>
-        </div>
-    `).join('');
-}
-
-function generateStoreCards() {
-    const products = [
-        { name: 'StarLive T-Shirt', price: 'Rp 150.000', tag: 'Limited', type: 'limited', emoji: '👕' },
-        { name: 'Hoodie Collection', price: 'Rp 350.000', tag: 'Discount', type: 'discount', emoji: '🧥' },
-        { name: 'Acrylic Stand', price: 'Rp 75.000', tag: null, type: null, emoji: '🎴' },
-        { name: 'Sticker Pack', price: 'Rp 50.000', tag: 'Limited', type: 'limited', emoji: '✨' },
-        { name: 'Art Book', price: 'Rp 200.000', tag: null, type: null, emoji: '📚' },
-        { name: 'Badge Set', price: 'Rp 100.000', tag: 'Discount', type: 'discount', emoji: '🏅' }
-    ];
-
-    return products.map(p => `
-        <div class="card">
-            <div class="card-image" style="background: linear-gradient(135deg, #e0e0e0, #bdbdbd);">
-                ${p.tag ? `<div class="card-tag">${p.tag}</div>` : ''}
-                <span style="font-size: 72px;">${p.emoji}</span>
-            </div>
-            <div class="card-body">
-                <h3 class="card-title">${p.name}</h3>
-                <p class="card-description" style="color: #c44569; font-weight: bold; font-size: 18px;">${p.price}</p>
-            </div>
-        </div>
-    `).join('');
-}
-
-function generateSocialCards() {
-    const socials = [
-        { name: 'YouTube', handle: '@StarLiveOfficial', desc: 'Subscribe for latest videos', color: '#FF0000', icon: '▶️' },
-        { name: 'Twitter / X', handle: '@StarLive_ID', desc: 'Follow for daily updates', color: '#1DA1F2', icon: '🐦' },
-        { name: 'Instagram', handle: '@starlive.official', desc: 'Visual stories and behind the scenes', color: '#E1306C', icon: '📷' },
-        { name: 'TikTok', handle: '@starlive', desc: 'Short videos and fun content', color: '#000000', icon: '🎵' }
-    ];
-
-    return socials.map(s => `
-        <a href="#" class="social-card" style="background: ${s.color};">
-            <div class="social-icon-large">${s.icon}</div>
-            <div class="social-info">
-                <h3>${s.name}</h3>
-                <p>${s.desc}</p>
-                <div class="social-handle">${s.handle}</div>
-            </div>
-        </a>
-    `).join('');
 }
 
 // Initialize
