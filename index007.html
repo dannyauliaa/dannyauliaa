@@ -11,12 +11,18 @@
     <div id="background-media">
         <!-- Custom background image or video will be inserted here -->
     </div>
-    
+
+    <!-- Animation Canvas -->
     <canvas id="animation-canvas"></canvas>
 
     <!-- Header with Date/Time and Menu Button -->
     <header class="top-header">
-        <div class="header-left"></div>
+        <div class="header-left">
+            <a href="#" class="header-logo" onclick="navigateTo('home'); return false;">
+                <div class="logo-icon">⭐</div>
+                <div class="logo-text">StarLive</div>
+            </a>
+        </div>
         <div class="header-center">
             <div id="current-datetime">
                 <div id="current-date">Loading...</div>
@@ -30,6 +36,16 @@
         </div>
     </header>
 
+    <!-- Welcome Notification -->
+    <div class="welcome-notification" id="welcome-notification">
+        <div class="welcome-icon">✓</div>
+        <div class="welcome-content">
+            <h4>Selamat Datang!</h4>
+            <p>Anda berhasil masuk ke StarLive</p>
+        </div>
+        <div class="welcome-close" onclick="closeWelcomeNotif()">×</div>
+    </div>
+    
     <!-- Sidebar Navigation -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -39,49 +55,56 @@
         <ul class="nav-menu">
             <li class="nav-item">
                 <a class="nav-link active" onclick="navigateTo('home')">
-                    <span class="nav-icon">🏠</span>
+                    <img class="img-fluid" src="Assets/Image/IconHome.png" alt="..." />
                     <span id="nav-home">Home</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('profile')">
                     <span class="nav-icon">👤</span>
+                    <img class="img-fluid" src="Assets/Image/IconMember.png" alt="..." />
                     <span id="nav-profile">Profile</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('creator')">
                     <span class="nav-icon">✨</span>
+                    <img class="img-fluid" src="Assets/Image/IconMember.png" alt="..." />
                     <span id="nav-creator">Creator</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('affiliation')">
                     <span class="nav-icon">🤝</span>
+                    <img class="img-fluid" src="Assets/Image/IconMember.png" alt="..." />
                     <span id="nav-affiliation">Affiliation</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('project')">
                     <span class="nav-icon">🚀</span>
+                    <img class="img-fluid" src="Assets/Image/IconDashboard.png" alt="..." />
                     <span id="nav-project">Project</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('gallery')">
                     <span class="nav-icon">📷</span>
+                    <img class="img-fluid" src="Assets/Image/IconPicture.png" alt="..." />
                     <span id="nav-gallery">Gallery</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('store')">
                     <span class="nav-icon">🛍️</span>
+                    <img class="img-fluid" src="Assets/Image/IconStore.png" alt="..." />
                     <span id="nav-store">Store</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="navigateTo('social')">
                     <span class="nav-icon">🌐</span>
+                    <img class="img-fluid" src="Assets/Image/IconChat.png" alt="..." />
                     <span id="nav-social">Social</span>
                 </a>
             </li>
