@@ -212,6 +212,8 @@ body.winter {
 .nav-icon {
     margin-right: 12px;
     font-size: 20px;
+    width: 24px;
+    height: 24px;
 }
 
 /* Main Content */
