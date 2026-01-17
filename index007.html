@@ -31,7 +31,11 @@
         </div>
         <div class="header-right">
             <div class="menu-toggle" onclick="toggleSidebar()">
-                <span>☰</span>
+                <span>
+                    <nav>
+                        <img src="Assets/Image/IconMenu.png" class="nav-icon" />
+                    </nav>
+                </span>
             </div>
         </div>
     </header>
@@ -127,7 +131,11 @@
 
     <!-- Settings FAB -->
     <div class="settings-fab" onclick="toggleSettings()">
-        <span class="settings-fab-icon">+</span>
+        <span class="settings-fab-icon">
+            <nav>
+                <img src="Assets/Image/IconSettings.png" class="nav-icon" />
+            </nav>
+        </span>
     </div>
 
     <!-- Settings Overlay -->
@@ -150,20 +158,33 @@
             <!-- Background Customization Section -->
             <div class="settings-section">
                 <div class="settings-section-header">
-                    <span class="settings-section-icon">🖼️</span>
+                    <span class="settings-section-icon">
+                            <nav>
+                                <img src="Assets/Image/IconMultimedia.png" class="nav-icon" />
+                            </nav>
+                    </span>
                     <h3 class="settings-section-title" id="settings-background-title">Background Customization</h3>
                 </div>
                 <p class="settings-description" id="settings-background-desc">Upload custom background image or video (animation effects will remain visible).</p>
                 
                 <div class="background-options">
                     <button class="btn btn-small" onclick="document.getElementById('bg-image-input').click()">
-                        📷 Upload Image
+                            <nav>
+                                <img src="Assets/Image/IconPhoto.png" class="nav-icon" />
+                            </nav>
+                        Upload Image
                     </button>
                     <button class="btn btn-small" onclick="document.getElementById('bg-video-input').click()">
-                        🎥 Upload Video
+                            <nav>
+                                <img src="Assets/Image/IconVideo.png" class="nav-icon" />
+                            </nav>
+                        Upload Video
                     </button>
                     <button class="btn btn-small btn-danger" onclick="removeBackground()">
-                        🗑️ Remove Background
+                            <nav>
+                                <img src="Assets/Image/IconRemove.png" class="nav-icon" />
+                            </nav>
+                        Remove Background
                     </button>
                 </div>
                 
@@ -179,7 +200,11 @@
             <!-- Theme Section -->
             <div class="settings-section">
                 <div class="settings-section-header">
-                    <span class="settings-section-icon">🎨</span>
+                    <span class="settings-section-icon">
+                            <nav>
+                                <img src="Assets/Image/IconScene.png" class="nav-icon" />
+                            </nav>
+                    </span>
                     <h3 class="settings-section-title" id="settings-theme-title">Theme Settings</h3>
                 </div>
                 <p class="settings-description" id="settings-theme-desc">Choose your preferred theme and color scheme for the best experience.</p>
@@ -228,7 +253,11 @@
             <!-- Animation Section -->
             <div class="settings-section">
                 <div class="settings-section-header">
-                    <span class="settings-section-icon">✨</span>
+                    <span class="settings-section-icon">
+                            <nav>
+                                <img src="Assets/Image/IconShine.png" class="nav-icon" />
+                            </nav>
+                    </span>
                     <h3 class="settings-section-title" id="settings-animation-title">Animation Control</h3>
                 </div>
                 <p class="settings-description" id="settings-animation-desc">Control background animations and visual effects.</p>
@@ -245,7 +274,11 @@
             <!-- Language Section -->
             <div class="settings-section">
                 <div class="settings-section-header">
-                    <span class="settings-section-icon">🌐</span>
+                    <span class="settings-section-icon">
+                            <nav>
+                                <img src="Assets/Image/IconLanguage.png" class="nav-icon" />
+                            </nav>
+                    </span>
                     <h3 class="settings-section-title" id="settings-language-title">Language Selection</h3>
                 </div>
                 <p class="settings-description" id="settings-language-desc">Choose your preferred language for the interface.</p>
@@ -271,7 +304,11 @@
             <!-- Notifications Section -->
             <div class="settings-section">
                 <div class="settings-section-header">
-                    <span class="settings-section-icon">🔔</span>
+                    <span class="settings-section-icon">
+                            <nav>
+                                <img src="Assets/Image/IconEmail.png" class="nav-icon" />
+                            </nav>
+                    </span>
                     <h3 class="settings-section-title" id="settings-notification-title">Notification Preferences</h3>
                 </div>
                 <p class="settings-description" id="settings-notification-desc">Manage your notification settings and alerts.</p>
