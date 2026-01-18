@@ -28,6 +28,25 @@ function updateDateTime() {
 setInterval(updateDateTime, 1000);
 updateDateTime();
 
+// ========== WELCOME NOTIFICATION ==========
+function showWelcomeNotification() {
+    const notif = document.getElementById('welcome-notification');
+    setTimeout(() => {
+        notif.classList.add('show');
+    }, 500);
+    
+    setTimeout(() => {
+        notif.classList.remove('show');
+    }, 5000);
+}
+
+function closeWelcomeNotif() {
+    document.getElementById('welcome-notification').classList.remove('show');
+}
+
+// Show welcome notification on page load
+window.addEventListener('load', showWelcomeNotification);
+
 // Canvas Setup
 const canvas = document.getElementById('animation-canvas');
 const ctx = canvas.getContext('2d');
